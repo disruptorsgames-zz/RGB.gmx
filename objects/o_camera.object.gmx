@@ -209,10 +209,12 @@ cooldown = o_player.cooldown;
 xx = o_player.x;
 yy = o_player.y;
 
+d3d_set_lighting(false);
 draw_text_color(16, 16, score, c_white, c_white, c_white, c_white, 1.0);
 draw_text_color(16, 32, string(charge) + " / " + string(cooldown), c_white, c_white, c_white, c_white, 1.0);
 draw_text_color(16, 48, string(pan) + ", " + string(tilt) + ", " + string(distance), c_yellow, c_yellow, c_yellow, c_yellow, 1.0);
 draw_text_color(16, 64, string(round(xx)) + ", " + string(round(yy)), c_aqua, c_aqua, c_aqua, c_aqua, 1.0);
+d3d_set_lighting(true);
 </string>
           </argument>
         </arguments>

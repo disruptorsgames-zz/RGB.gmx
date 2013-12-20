@@ -13,12 +13,13 @@
     <sprite>sprites\s_spawn</sprite>
   </sprites>
   <backgrounds name="background">
+    <background>background\b_celshading</background>
     <background>background\b_ground</background>
     <background>background\b_item</background>
+    <background>background\b_moon</background>
     <background>background\b_player</background>
     <background>background\b_sun</background>
     <background>background\b_wall</background>
-    <background>background\b_celshading</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
