@@ -55,7 +55,7 @@ orbit_radius = 4800;
             <kind>1</kind>
             <string>/// Orbit
 x = room_width / 2 + lengthdir_x(orbit_radius, dir);
-z = room_height / 2 + lengthdir_y(orbit_radius, dir);
+z = lengthdir_y(orbit_radius, dir);
 dir -= orbit_speed;
 </string>
           </argument>
@@ -105,18 +105,15 @@ d3d_draw_floor(room_width, 0, 0, 0, room_height, 0, background_get_texture(b_gro
 // lighting
 dx = room_width / 2 - x;
 dy = room_height / 2 - y;
-dz = 0 - z;
+dz = z;
 d3d_light_define_direction(0, dx, dy, dz, c_white);
 d3d_light_enable(0, true);
-cx = x - lengthdir_x(lengthdir_x(1929, 45), 0);
-cy = y - lengthdir_y(lengthdir_x(1929, 45), 0);
-cz = z - lengthdir_y(1929, 45);
-d3d_light_define_point(1, cx, cy, cz, size * 8, c_white);
-d3d_light_enable(1, true);
 // drawing
 draw_set_alpha(1);
 draw_set_color(c_yellow);
+d3d_set_lighting(false);
 d3d_draw_ellipsoid(x - size, y - size, z - size, x + size, y + size, z + size, background_get_texture(b_sun), size / 8, size / 8, 24);
+d3d_set_lighting(true);
 </string>
           </argument>
         </arguments>
@@ -138,13 +135,13 @@ d3d_draw_ellipsoid(x - size, y - size, z - size, x + size, y + size, z + size, b
           <argument>
             <kind>1</kind>
             <string>/// D3D Walls
-draw_set_alpha(1.0);
+/*draw_set_alpha(1.0);
 draw_set_color(c_white);
 tex = background_get_texture(b_wall);
 d3d_draw_wall(0, room_height, 0, room_width, room_height, 32, tex, room_width / 16, 2);
 d3d_draw_wall(room_width, room_height, 0, room_width, 0, 32, tex, room_width / 16, 2);
 d3d_draw_wall(0, 0, 0, 0, room_height, 32, tex, room_width / 16, 2);
-d3d_draw_wall(room_width, 0, 0, 0, 0, 32, tex, room_width / 16, 2);
+d3d_draw_wall(room_width, 0, 0, 0, 0, 32, tex, room_width / 16, 2);*/
 </string>
           </argument>
         </arguments>

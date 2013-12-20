@@ -98,7 +98,7 @@ texture_set_interpolation(false);
 if (instance_exists(target)) {
     x = target.x;
     y = target.y;
-    z = target.z;
+    z = target.z + 8;
 }
 </string>
           </argument>
@@ -179,7 +179,7 @@ if (mlook)
           <argument>
             <kind>1</kind>
             <string>/// Zoom In
-if (distance &gt; 90)
+//if (distance &gt; 90)
     distance -= 10;
 </string>
           </argument>
