@@ -170,7 +170,7 @@ d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 1);
 // drawing
 shader_set(sh_celshading);
-shader_set_uniform_f(cslightPos, o_environment.x, o_environment.y, o_environment.sz - o_environment.mz);
+shader_set_uniform_f(cslightPos, o_sun.x, o_sun.y, o_sun.z);
 texture_set_stage(celSample, background_get_texture(b_celshading));
 draw_set_alpha(1.0);
 draw_set_color(c_black);

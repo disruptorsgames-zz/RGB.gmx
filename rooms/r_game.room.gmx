@@ -11,7 +11,12 @@
   <colour>13145700</colour>
   <showcolour>-1</showcolour>
   <code>instance_create(room_width / 2, room_height / 2, o_player);
-instance_create(room_width / 2, room_height / 2, o_camera);</code>
+instance_create(room_width / 2, room_height / 2, o_camera);
+instance_create(room_width / 2, room_height / 2, o_world);
+
+instance_create(0, 0, o_sun);
+instance_create(0, 0, o_moon);
+instance_create(0, 0, o_spawn_items);</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <makerSettings>
@@ -50,10 +55,7 @@ instance_create(room_width / 2, room_height / 2, o_camera);</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
-  <instances>
-    <instance objName="o_environment" x="16" y="16" name="inst_DD673D43" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="o_spawn_items" x="64" y="32" name="inst_2109F632" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-  </instances>
+  <instances/>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
   <PhysicsWorldTop>0</PhysicsWorldTop>

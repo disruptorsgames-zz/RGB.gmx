@@ -8,14 +8,14 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\s_player</sprite>
-    <sprite>sprites\s_coin</sprite>
-    <sprite>sprites\s_box</sprite>
+    <sprite>sprites\s_sun</sprite>
+    <sprite>sprites\s_moon</sprite>
+    <sprite>sprites\s_item</sprite>
     <sprite>sprites\s_spawn</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\b_celshading</background>
     <background>background\b_ground</background>
-    <background>background\b_item</background>
     <background>background\b_moon</background>
     <background>background\b_player</background>
     <background>background\b_sun</background>
@@ -32,7 +32,9 @@
   <objects name="objects">
     <object>objects\o_player</object>
     <object>objects\o_camera</object>
-    <object>objects\o_environment</object>
+    <object>objects\o_sun</object>
+    <object>objects\o_moon</object>
+    <object>objects\o_world</object>
     <object>objects\o_spawn_items</object>
     <object>objects\o_item</object>
   </objects>
