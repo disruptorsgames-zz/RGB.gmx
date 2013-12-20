@@ -27,14 +27,17 @@
             <kind>1</kind>
             <string>/// Initialize
 wave = random(360); // used for small movements of coin
+z = 8 + lengthdir_x(2, wave);
+scale = 1;
+zsize = 8;
 rot_x = random(360);
 rot_y = random(360);
 rot_z = random(360);
-scale = 1;
 vdecay = 0;
-z = 8 + lengthdir_x(2, wave);
-zsize = 8;
 decay = false; // set to "true" once picked up.
+// shader
+cslightPos = shader_get_uniform(sh_celshading, "lightPos");
+celSample = shader_get_sampler_index(sh_celshading, "celShadingSample");
 </string>
           </argument>
         </arguments>
@@ -128,9 +131,15 @@ d3d_transform_add_rotation_y(rot_z);
 d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 4);
 // drawing
+shader_set(sh_celshading);
+shader_set_uniform_f(cslightPos, o_environment.x, o_environment.y, o_environment.z);
+texture_set_stage(celSample, background_get_texture(b_celshading));
 draw_set_alpha(1.0);
+draw_set_color(c_black);
+d3d_draw_block(-4.5, -4.5, 4.5, 4.5, 4.5, -4.5, -1, 1, 1);
 draw_set_color(c_white);
 d3d_draw_block(-4, -4, -4, 4, 4, 4, background_get_texture(b_item), 1, 1);
+shader_reset();
 
 d3d_transform_stack_pop();
 </string>

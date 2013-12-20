@@ -26,15 +26,21 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
+
+// coordinates / size 
 z = 0;
-zspeed = 0;
+scale = 1;
 zsize = 16; // size on Z axis
 facing = 0; // facing direction
 tfacing = 0; // target facing direction
+// movement
+zspeed = 0;
 walkspeed = 2.3; // movement speed
 cooldown = 90;
 charge = 0;
-scale = 1;
+// shader
+cslightPos = shader_get_uniform(sh_celshading, "lightPos");
+celSample = shader_get_sampler_index(sh_celshading, "celShadingSample");
 </string>
           </argument>
         </arguments>
@@ -155,7 +161,7 @@ facing += max(-15, min(15, cycle(tfacing - facing, -180, 180)));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// D3D Player
+            <string>/// D3D
 d3d_transform_stack_push();
  
 // rotation / translatoin
@@ -163,9 +169,15 @@ d3d_transform_add_rotation_z(facing);
 d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 1);
 // drawing
+shader_set(sh_celshading);
+shader_set_uniform_f(cslightPos, o_environment.x, o_environment.y, o_environment.z);
+texture_set_stage(celSample, background_get_texture(b_celshading));
 draw_set_alpha(1.0);
+draw_set_color(c_black);
+d3d_draw_block(-8.5, -8.5, 16.5, 8.5, 8.5, -0.5, -1, 1, 1);
 draw_set_color(c_white);
-d3d_draw_block(-8, -8, 16, 8, 8, 0, background_get_texture(b_player), 1, 1);
+d3d_draw_block(-8, -8, 0, 8, 8, 16, background_get_texture(b_player), 1, 1);
+shader_reset();
 
 d3d_transform_stack_pop();
 </string>
