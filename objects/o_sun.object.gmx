@@ -27,8 +27,8 @@
             <kind>1</kind>
             <string>/// Initialize
 z = 0;
+scale = 360;
 dir = 0;
-size = 360;
 orbit_speed = 8 / 60 /*/ 60*/;
 orbit_radius = 4800;
 </string>
@@ -54,9 +54,9 @@ orbit_radius = 4800;
           <argument>
             <kind>1</kind>
             <string>/// Orbit
+dir -= orbit_speed;
 x = room_width / 2 + lengthdir_x(orbit_radius, dir);
 z = lengthdir_y(orbit_radius, dir);
-dir -= orbit_speed;
 </string>
           </argument>
         </arguments>
@@ -80,14 +80,18 @@ dir -= orbit_speed;
           <argument>
             <kind>1</kind>
             <string>/// D3D Sun
+d3d_transform_stack_push();
+
 // lighting
 d3d_light_define_direction(0, x, y, z, c_white);
 d3d_light_enable(0, true);
 // drawing
 draw_set_alpha(1);
 d3d_set_lighting(false);
-d3d_draw_ellipsoid(x - size, y - size, z - size, x + size, y + size, z + size, background_get_texture(b_sun), size / 8, size / 8, 24);
+d3d_draw_ellipsoid(x - scale, y - scale, z - scale, x + scale, y + scale, z + scale, background_get_texture(b_sun), scale / 8, scale / 8, 24);
 d3d_set_lighting(true);
+
+d3d_transform_stack_pop();
 </string>
           </argument>
         </arguments>

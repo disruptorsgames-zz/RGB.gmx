@@ -28,7 +28,8 @@
             <string>/// Initialize
 pan = 0;
 tilt = 30;
-distance = 90;
+distance = 45;
+fov = 90;
 z = 0;
 
 // rotation speed (also for inverting controls)
@@ -68,7 +69,7 @@ if (instance_exists(o_player))
             <string>/// D3D Setup
 d3d_start();
 d3d_set_lighting(true);
-d3d_light_define_ambient(c_dkgray);
+//d3d_light_define_ambient(c_dkgray);
 d3d_set_culling(true);
 d3d_set_hidden(true);
 texture_set_interpolation(false);
@@ -203,7 +204,7 @@ if (mlook)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw Text
+            <string>/// HUD
 charge = o_player.charge;
 cooldown = o_player.cooldown;
 xx = o_player.x;
@@ -212,8 +213,8 @@ yy = o_player.y;
 d3d_set_lighting(false);
 draw_text_color(16, 16, score, c_white, c_white, c_white, c_white, 1.0);
 draw_text_color(16, 32, string(charge) + " / " + string(cooldown), c_white, c_white, c_white, c_white, 1.0);
-draw_text_color(16, 48, string(pan) + ", " + string(tilt) + ", " + string(distance), c_yellow, c_yellow, c_yellow, c_yellow, 1.0);
-draw_text_color(16, 64, string(round(xx)) + ", " + string(round(yy)), c_aqua, c_aqua, c_aqua, c_aqua, 1.0);
+draw_text_color(16, 48, string(pan) + ", " + string(tilt) + ", " + string(distance), c_white, c_white, c_white, c_white, 1.0);
+draw_text_color(16, 64, point_direction(x, z, o_sun.x, o_sun.z), c_white, c_white, c_white, c_white, 1.0);
 d3d_set_lighting(true);
 </string>
           </argument>
@@ -238,11 +239,15 @@ d3d_set_lighting(true);
           <argument>
             <kind>1</kind>
             <string>/// D3D Projection
+
 global.camera_x = x - lengthdir_x(lengthdir_x(distance, tilt), pan);
 global.camera_y = y - lengthdir_y(lengthdir_x(distance, tilt), pan);
 global.camera_z = z - lengthdir_y(distance, tilt);
 global.camera_d = pan;
-d3d_set_projection(global.camera_x, global.camera_y, global.camera_z, x, y, z, 0, 0, 1);
+
+r = view_wview[0] / view_hview[0];
+
+d3d_set_projection_ext(global.camera_x, global.camera_y, global.camera_z, x, y, z, 0, 0, 1, fov, r, 1, 16000);
 </string>
           </argument>
         </arguments>
