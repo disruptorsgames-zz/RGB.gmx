@@ -95,7 +95,8 @@ if (decay) {
           <argument>
             <kind>1</kind>
             <string>/// Pickup
-if (!decay &amp;&amp; (other.z + other.zsize &gt;= z) &amp;&amp; (other.z &lt;= z + zsize)) {
+if (!decay &amp;&amp; (other.z + other.zsize &gt;= z) &amp;&amp; (other.z &lt;= z + zsize)) 
+{
     score += 1;
     decay = true;
 }

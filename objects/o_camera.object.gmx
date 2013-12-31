@@ -33,8 +33,8 @@ fov = 90;
 z = 0;
 
 // rotation speed (also for inverting controls)
-rotspeed_x = -1.0;
-rotspeed_y = 1.0;
+rotspeed_x = -0.95;
+rotspeed_y = 0.95;
 
 // mouse stuff
 window_mouse_set(window_get_width() / 2, window_get_height() / 2);

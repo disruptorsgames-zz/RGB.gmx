@@ -1,7 +1,3 @@
-float4 vec4(float x0, float x1, float x2, float x3)
-{
-    return float4(x0, x1, x2, x3);
-}
 float4 vec4(float3 x0, float x1)
 {
     return float4(x0, x1);
@@ -15,9 +11,13 @@ static float2 _in_TextureCoord = {0, 0};
 static float4 gl_Position = float4(0, 0, 0, 0);
 
 // Varyings
-static float _dp = {0};
-static float4 _v_vColour = {0, 0, 0, 0};
-static float2 _v_vTexcoord = {0, 0};
+static float3 _l = {0, 0, 0};
+static float3 _n = {0, 0, 0};
+static float3 _v = {0, 0, 0};
+static float4 _vertColor = {0, 0, 0, 0};
+static float3 _vertNormal = {0, 0, 0};
+static float3 _vertPosition = {0, 0, 0};
+static float2 _vertTexcoord = {0, 0};
 
 uniform float4 dx_ViewAdjust : register(c1);
 
@@ -30,7 +30,7 @@ uniform float4 _gm_Lights_PosRange[8] : register(c21);
 uniform float4x4 _gm_Matrices[5] : register(c29);
 uniform float _gm_RcpFogRange : register(c49);
 uniform bool _gm_VS_FogEnabled : register(c50);
-uniform float3 _lightPos : register(c51);
+uniform float3 _light_position : register(c51);
 
 ;
 ;
@@ -155,14 +155,19 @@ return _vertexcolour;
 ;
 ;
 ;
+;
+;
+;
+;
 void gl_main()
 {
 {
-float4 _object_space_pos = vec4(_in_Position.x, _in_Position.y, _in_Position.z, 1.0);
-(gl_Position = mul((_gm_Matrices[4]), _object_space_pos));
-(_v_vColour = _in_Colour);
-(_v_vTexcoord = _in_TextureCoord);
-(_dp = ((1.0 - dot(normalize(mul((_gm_Matrices[2]), vec4(_in_Normal, 0.0))).xyz, normalize((mul((_gm_Matrices[2]), vec4(_in_Position, 1.0)).xyz - _lightPos)))) / 2.0));
+(_v = mul((_gm_Matrices[3]), vec4(_in_Position, 1.0)).xyz);
+(_n = mul((_gm_Matrices[3]), vec4(_in_Normal, 0.0)).xyz);
+(_l = mul((_gm_Matrices[0]), vec4(_light_position, 1.0)).xyz);
+(_vertTexcoord = _in_TextureCoord);
+(_vertColor = _in_Colour);
+(gl_Position = mul((_gm_Matrices[4]), vec4(_in_Position, 1.0)));
 }
 }
 ;
@@ -178,8 +183,10 @@ struct VS_OUTPUT
 {
     float4 gl_Position : POSITION;
     float4 v0 : TEXCOORD0;
-    float2 v1 : TEXCOORD1;
-    float1 v2 : TEXCOORD2;
+    float3 v1 : TEXCOORD1;
+    float3 v2 : TEXCOORD2;
+    float3 v3 : TEXCOORD3;
+    float2 v4 : TEXCOORD4;
 };
 
 VS_OUTPUT main(VS_INPUT input)
@@ -196,9 +203,11 @@ VS_OUTPUT main(VS_INPUT input)
     output.gl_Position.y = gl_Position.y;
     output.gl_Position.z = gl_Position.z;
     output.gl_Position.w = gl_Position.w;
-    output.v2 = _dp;
-    output.v0 = _v_vColour;
-    output.v1 = _v_vTexcoord;
+    output.v1 = _l;
+    output.v2 = _n;
+    output.v3 = _v;
+    output.v0 = _vertColor;
+    output.v4 = _vertTexcoord;
 
     return output;
 }

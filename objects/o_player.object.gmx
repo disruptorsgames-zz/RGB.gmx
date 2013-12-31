@@ -35,7 +35,7 @@ facing = 0; // facing direction
 tfacing = 0; // target facing direction
 // movement
 zspeed = 0;
-walkspeed = 2.3; // movement speed
+walkspeed = 1.75; // movement speed
 cooldown = 90;
 charge = 0;
 // shader
