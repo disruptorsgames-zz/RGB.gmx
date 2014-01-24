@@ -25,11 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Initialize
-
-// shader
-cslightPos = shader_get_uniform(sh_celshading, "lightPos");
-celSample = shader_get_sampler_index(sh_celshading, "celShadingSample");
+            <string>/// Start Server
+port = 6510;
+global.server = network_create_server(network_socket_tcp, port, 32);
 </string>
           </argument>
         </arguments>
@@ -55,9 +53,7 @@ celSample = shader_get_sampler_index(sh_celshading, "celShadingSample");
             <string>/// D3D Floor
 d3d_transform_stack_push();
 
-shader_set(sh_celshading);
-shader_set_uniform_f(cslightPos, o_sun.x, o_sun.y, o_sun.z);
-texture_set_stage(celSample, background_get_texture(b_celshading));
+celShading();
 d3d_draw_floor(0, room_height, 0, room_width, 0, 0, background_get_texture(b_ground), room_width / 16, room_height / 16);
 shader_reset();
 
@@ -88,9 +84,7 @@ d3d_transform_stack_pop();
 draw_set_alpha(1.0);
 draw_set_color(c_white);
 tex = background_get_texture(b_wall);
-shader_set(sh_celshading);
-shader_set_uniform_f(cslightPos, o_sun.x, o_sun.y, o_sun.z);
-texture_set_stage(celSample, background_get_texture(b_celshading));
+celShading();
 d3d_draw_wall(0, room_height, 0, room_width, room_height, 32, tex, room_width / 16, 2);
 d3d_draw_wall(room_width, room_height, 0, room_width, 0, 32, tex, room_width / 16, 2);
 d3d_draw_wall(0, 0, 0, 0, room_height, 32, tex, room_width / 16, 2);

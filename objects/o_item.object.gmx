@@ -35,9 +35,8 @@ rot_y = random(360);
 rot_z = random(360);
 vdecay = 0;
 decay = false; // set to "true" once picked up.
-// shader
-cslightPos = shader_get_uniform(sh_celshading, "lightPos");
-celSample = shader_get_sampler_index(sh_celshading, "celShadingSample");
+color = c_white;
+spawn = 0;
 </string>
           </argument>
         </arguments>
@@ -60,12 +59,20 @@ celSample = shader_get_sampler_index(sh_celshading, "celShadingSample");
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//
+            <string>/// Effects
+
+// fade into view
+if (spawn &lt; 1.0)
+    spawn += 0.025;
+
+// float
 wave += 1;
 z = 8 + lengthdir_x(2, wave);
-//
-if (decay) {
-    vdecay += 0.1;
+
+// disapear
+if (decay) 
+{
+    vdecay += 0.2;
     
     if (vdecay &gt;= 1) 
         instance_destroy();
@@ -76,8 +83,6 @@ if (decay) {
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="4" ename="o_player">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -95,9 +100,9 @@ if (decay) {
           <argument>
             <kind>1</kind>
             <string>/// Pickup
-if (!decay &amp;&amp; (other.z + other.zsize &gt;= z) &amp;&amp; (other.z &lt;= z + zsize)) 
+if (point_distance_3d(x, y, z, o_player.x, o_player.y, o_player.z) &lt; 16)
 {
-    score += 1;
+    score++;
     decay = true;
 }
 </string>
@@ -132,13 +137,11 @@ d3d_transform_add_rotation_y(rot_z);
 d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 4);
 // drawing
-shader_set(sh_celshading);
-shader_set_uniform_f(cslightPos, o_sun.x, o_sun.y, o_sun.z);
-texture_set_stage(celSample, background_get_texture(b_celshading));
-draw_set_alpha(1.0);
+celShading();
+draw_set_alpha(spawn);
 draw_set_color(c_black);
 d3d_draw_block(-4.5, -4.5, 4.5, 4.5, 4.5, -4.5, -1, 1, 1);
-draw_set_color(c_white);
+draw_set_color(color);
 d3d_draw_block(-4, -4, -4, 4, 4, 4, sprite_get_texture(s_item, 0), 1, 1);
 shader_reset();
 

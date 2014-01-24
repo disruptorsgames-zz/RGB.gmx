@@ -83,8 +83,8 @@ z = lengthdir_y(orbit_radius, dir);
 d3d_transform_stack_push();
 
 // lighting
-d3d_light_define_direction(0, x, y, z, c_white);
-d3d_light_enable(0, true);
+//d3d_light_define_direction(0, 0, 1, 0, c_white);
+//d3d_light_enable(0, sign(z) == 1);
 // drawing
 draw_set_alpha(1);
 d3d_set_lighting(false);

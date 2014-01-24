@@ -37,7 +37,8 @@ repeat (40)
         y = random(room_height - 16) + 8;
         if (!place_meeting(x, y, o_item)) 
         {
-            instance_create(x, y, o_item);
+            item = instance_create(x, y, o_item);
+            item.color = make_color_rgb(random(255), random(255), random(255));
             break;
         }
     }

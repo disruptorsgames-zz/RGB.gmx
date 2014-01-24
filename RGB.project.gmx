@@ -7,11 +7,17 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\s_player</sprite>
-    <sprite>sprites\s_sun</sprite>
-    <sprite>sprites\s_moon</sprite>
-    <sprite>sprites\s_item</sprite>
-    <sprite>sprites\s_spawn</sprite>
+    <sprites name="Player">
+      <sprite>sprites\s_player</sprite>
+    </sprites>
+    <sprites name="World">
+      <sprite>sprites\s_item</sprite>
+      <sprite>sprites\s_moon</sprite>
+      <sprite>sprites\s_sun</sprite>
+    </sprites>
+    <sprites name="Spawns">
+      <sprite>sprites\s_spawn</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\b_celshading</background>
@@ -23,24 +29,31 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\cycle.gml</script>
+    <script>scripts\celShading.gml</script>
     <script>scripts\createFromObj.gml</script>
+    <script>scripts\cycle.gml</script>
   </scripts>
   <shaders name="shaders">
-    <shader type="GLSLES">shaders\sh_celshading.shader</shader>
-    <shader type="GLSLES">shaders\sh_diffuse_textured.shader</shader>
+    <shader type="GLSLES">shaders\vfx_celshading.shader</shader>
+    <shader type="GLSLES">shaders\vfx_diffuse_textured.shader</shader>
   </shaders>
   <objects name="objects">
-    <object>objects\o_player</object>
-    <object>objects\o_camera</object>
-    <object>objects\o_sun</object>
-    <object>objects\o_moon</object>
-    <object>objects\o_world</object>
-    <object>objects\o_spawn_items</object>
-    <object>objects\o_item</object>
+    <objects name="Player">
+      <object>objects\o_camera</object>
+      <object>objects\o_player</object>
+    </objects>
+    <objects name="World">
+      <object>objects\o_item</object>
+      <object>objects\o_moon</object>
+      <object>objects\o_sun</object>
+      <object>objects\o_world</object>
+    </objects>
+    <objects name="Spawns">
+      <object>objects\o_spawn_items</object>
+    </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\r_game</room>
+    <room>rooms\r_main</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

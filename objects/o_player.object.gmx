@@ -38,9 +38,14 @@ zspeed = 0;
 walkspeed = 1.75; // movement speed
 cooldown = 90;
 charge = 0;
-// shader
-cslightPos = shader_get_uniform(sh_celshading, "lightPos");
-celSample = shader_get_sampler_index(sh_celshading, "celShadingSample");
+spawn = 0;
+key_x = 0;
+key_y = 0;
+// stats
+max_hp = 100;
+hp = 100;
+// other
+target = o_item;
 </string>
           </argument>
         </arguments>
@@ -87,6 +92,14 @@ if (key_l &gt; 0)
     y += (lengthdir_y(key_x, cam_d) + lengthdir_y(key_y, cam_d - 90)) * walkspeed;
     tfacing = point_direction(0, 0, key_x, key_y) + cam_d;
 }
+
+// camera view with ALT
+//if (!keyboard_check(vk_alt))
+//{
+    //tfacing = cam_d;
+    // rotate towards target facing direction
+    facing += max(-15, min(15, cycle(tfacing - facing, -180, 180)));
+//}
 
 // z movement
 if (z &gt; 0) 
@@ -136,9 +149,96 @@ if (mouse_check_button_released(mb_left))
 // cooldown
 if (cooldown &gt; 0)
     cooldown -= 1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Spawn
+if (spawn &lt; 1.0)
+    spawn += 0.025;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Targeting
+target = instance_nearest(x, y, o_item);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// HUD
+offset = 16;
+xx = view_wview[0] / 2;
+yy = view_hview[0] / 2;
+size = 75;
 
-// rotate towards target facing direction:
-facing += max(-15, min(15, cycle(tfacing - facing, -180, 180)));
+d3d_set_lighting(false);
+
+draw_healthbar(offset, offset, offset + 256, offset + 16, (hp / max_hp) * 100, c_white, c_red, c_lime, 3, true, true);
+
+/*
+if (key_y == -1) // left
+    draw_triangle_color(xx - size, yy, xx, yy - size, xx, yy + size, c_red, c_red, c_red, false);
+else if (key_y == 1) // up
+    draw_triangle_color(xx, yy - size, xx + size, yy, xx, yy + size, c_green, c_green, c_green, false);
+
+if (key_x == 1) // right
+    draw_triangle_color(xx - size, yy, xx, yy - size, xx + size, yy, c_blue, c_blue, c_blue, false);
+else if (key_x == -1) // yellow
+    draw_triangle_color(xx + size, yy, xx, yy + size, xx - size, yy, c_yellow, c_yellow, c_yellow, false);
+*/
+    
+d3d_set_lighting(true);
 </string>
           </argument>
         </arguments>
@@ -164,19 +264,17 @@ facing += max(-15, min(15, cycle(tfacing - facing, -180, 180)));
             <string>/// D3D
 d3d_transform_stack_push();
  
-// rotation / translatoin
+// positioning
 d3d_transform_add_rotation_z(facing);
 d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 1);
 // drawing
-shader_set(sh_celshading);
-shader_set_uniform_f(cslightPos, o_sun.x, o_sun.y, o_sun.z);
-texture_set_stage(celSample, background_get_texture(b_celshading));
-draw_set_alpha(1.0);
+celShading();
+draw_set_alpha(spawn);
 draw_set_color(c_black);
-d3d_draw_block(-8.5, -8.5, 16.5, 8.5, 8.5, -0.5, -1, 1, 1);
+d3d_draw_block(-8.5, -8.5, zsize + 0.5, 8.5, 8.5, -0.5, -1, 1, 1);
 draw_set_color(c_white);
-d3d_draw_block(-8, -8, 0, 8, 8, 16, background_get_texture(b_player), 1, 1);
+d3d_draw_block(-8, -8, 0, 8, 8, zsize, background_get_texture(b_player), 1, 1);
 shader_reset();
 
 d3d_transform_stack_pop();
