@@ -49,7 +49,7 @@
       <object>objects\o_world</object>
     </objects>
     <objects name="Spawns">
-      <object>objects\o_spawn_items</object>
+      <object>objects\o_items</object>
     </objects>
   </objects>
   <rooms name="rooms">

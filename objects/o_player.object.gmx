@@ -30,7 +30,9 @@
 // coordinates / size 
 z = 0;
 scale = 1;
-zsize = 16; // size on Z axis
+size = 8; // size of object
+ssize = size + 0.5; // size of shadow
+zsize = 32; // size on Z axis
 facing = 0; // facing direction
 tfacing = 0; // target facing direction
 // movement
@@ -43,7 +45,9 @@ key_x = 0;
 key_y = 0;
 // stats
 max_hp = 100;
-hp = 100;
+hp = 50;
+max_mana = 100;
+mana = 0;
 // other
 target = o_item;
 </string>
@@ -103,7 +107,7 @@ if (key_l &gt; 0)
 
 // z movement
 if (z &gt; 0) 
-    zspeed -= 0.5 // accelerate downwards if in air
+    zspeed -= 0.25; // accelerate downwards if in air
 z += zspeed;
 if (z &lt; 0) 
 { 
@@ -112,7 +116,7 @@ if (z &lt; 0)
     zspeed = 0;
 }
 if ((z &lt;= 0) &amp;&amp; keyboard_check(vk_space)) 
-    zspeed = 6; // jumping
+    zspeed = 5; // jumping
 </string>
           </argument>
         </arguments>
@@ -192,8 +196,37 @@ if (spawn &lt; 1.0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Targeting
+            <string>/// Targeting &amp; Pickup
 target = instance_nearest(x, y, o_item);
+// pickup
+if (instance_exists(target) &amp;&amp; point_distance_3d(x, y, z, target.x, target.y, target.z) &lt; 16)
+{
+    switch(color_get_hue(target.color))
+    {
+        // red
+        case 0:
+            if (hp &lt; max_hp)
+            {
+                target.decay = true;
+                hp += 2;
+            }
+            break;
+        // green
+        case 85:
+            break;
+        // blue
+        case 170:
+            if (mana &lt; max_mana)
+            {
+                target.decay = true;
+                mana += 2;
+            }
+            break;
+        // yellow
+        case 43:
+            break;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -220,23 +253,24 @@ target = instance_nearest(x, y, o_item);
 offset = 16;
 xx = view_wview[0] / 2;
 yy = view_hview[0] / 2;
-size = 75;
 
 d3d_set_lighting(false);
 
-draw_healthbar(offset, offset, offset + 256, offset + 16, (hp / max_hp) * 100, c_white, c_red, c_lime, 3, true, true);
+draw_healthbar(offset, offset, offset + 256, offset + 16, (hp / max_hp) * 100, c_white, c_maroon, c_red, 0, false, true);
+draw_text_color(offset, offset, hp, c_white, c_white, c_white, c_white, 1.0);
 
-/*
-if (key_y == -1) // left
-    draw_triangle_color(xx - size, yy, xx, yy - size, xx, yy + size, c_red, c_red, c_red, false);
-else if (key_y == 1) // up
-    draw_triangle_color(xx, yy - size, xx + size, yy, xx, yy + size, c_green, c_green, c_green, false);
+draw_healthbar(offset, offset + 20, offset + 256, offset + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
+draw_text_color(offset, offset + 20, mana, c_white, c_white, c_white, c_white, 1.0);
 
-if (key_x == 1) // right
-    draw_triangle_color(xx - size, yy, xx, yy - size, xx + size, yy, c_blue, c_blue, c_blue, false);
-else if (key_x == -1) // yellow
-    draw_triangle_color(xx + size, yy, xx, yy + size, xx - size, yy, c_yellow, c_yellow, c_yellow, false);
-*/
+if (instance_exists(target))
+{
+    // attack direction
+    r = sqr(zsize / 1.5) / (o_camera.distance / 32);
+    ax = lengthdir_x(r, target.attack_dir);
+    ay = lengthdir_y(r, target.attack_dir);
+    draw_circle_color(view_wview[0] / 2, view_hview[0] / 2 - zsize, r, c_black, c_black, 1);
+    draw_circle_color(view_wview[0] / 2 + ax, view_hview[0] / 2 - zsize + ay, r / 8, target.color, target.color, false);
+}
     
 d3d_set_lighting(true);
 </string>
@@ -272,9 +306,9 @@ d3d_transform_add_translation(x, y, z + 1);
 celShading();
 draw_set_alpha(spawn);
 draw_set_color(c_black);
-d3d_draw_block(-8.5, -8.5, zsize + 0.5, 8.5, 8.5, -0.5, -1, 1, 1);
+d3d_draw_block(-ssize, -ssize, zsize + 0.5, ssize, ssize, -0.5, -1, 1, 1);
 draw_set_color(c_white);
-d3d_draw_block(-8, -8, 0, 8, 8, zsize, background_get_texture(b_player), 1, 1);
+d3d_draw_block(-size, -size, 0, size, size, zsize, background_get_texture(b_player), 1, 1);
 shader_reset();
 
 d3d_transform_stack_pop();
