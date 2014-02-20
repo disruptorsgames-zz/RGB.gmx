@@ -10,13 +10,14 @@
     <sprites name="Player">
       <sprite>sprites\s_player</sprite>
     </sprites>
+    <sprites name="Spawns">
+      <sprite>sprites\s_spawn</sprite>
+    </sprites>
     <sprites name="World">
+      <sprite>sprites\s_default</sprite>
       <sprite>sprites\s_item</sprite>
       <sprite>sprites\s_moon</sprite>
       <sprite>sprites\s_sun</sprite>
-    </sprites>
-    <sprites name="Spawns">
-      <sprite>sprites\s_spawn</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -29,27 +30,40 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\celShading.gml</script>
     <script>scripts\createFromObj.gml</script>
     <script>scripts\cycle.gml</script>
+    <scripts name="events">
+      <script>scripts\spellTick.gml</script>
+    </scripts>
+    <scripts name="shaders">
+      <script>scripts\celShading.gml</script>
+    </scripts>
+    <scripts name="effects">
+      <script>scripts\emit.gml</script>
+      <script>scripts\gib.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\vfx_celshading.shader</shader>
     <shader type="GLSLES">shaders\vfx_diffuse_textured.shader</shader>
   </shaders>
   <objects name="objects">
+    <objects name="Effects">
+      <object>objects\o_gib</object>
+      <object>objects\o_float</object>
+    </objects>
     <objects name="Player">
       <object>objects\o_camera</object>
       <object>objects\o_player</object>
+    </objects>
+    <objects name="Spawns">
+      <object>objects\o_items</object>
     </objects>
     <objects name="World">
       <object>objects\o_item</object>
       <object>objects\o_moon</object>
       <object>objects\o_sun</object>
       <object>objects\o_world</object>
-    </objects>
-    <objects name="Spawns">
-      <object>objects\o_items</object>
     </objects>
   </objects>
   <rooms name="rooms">

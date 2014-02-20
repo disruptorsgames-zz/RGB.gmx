@@ -30,32 +30,170 @@
 // coordinates / size 
 z = 0;
 scale = 1;
-size = 8; // size of object
-ssize = size + 0.5; // size of shadow
-zsize = 32; // size on Z axis
-facing = 0; // facing direction
-tfacing = 0; // target facing direction
+size = 8;
+ssize = size + 0.5;
+zsize = 16;
+facing = 0;
+tfacing = 0;
 // movement
 zspeed = 0;
-walkspeed = 1.75; // movement speed
+walkspeed = 1.75;
 cooldown = 90;
 charge = 0;
 spawn = 0;
 key_x = 0;
 key_y = 0;
+// spells
+spells = ds_map_create();
 // stats
 max_hp = 100;
 hp = 50;
 max_mana = 100;
 mana = 0;
 // other
-target = o_item;
+zone = 80;
+color = c_white;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
     <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Timers
+
+// spells
+s = ds_map_find_first(spells);
+for (var i = 0; i &lt; ds_map_size(spells); i++)
+{
+    val = ds_map_find_value(spells, s);
+    
+    if (val &gt; 0)
+        ds_map_replace(spells, s, val - 1);
+    if (val == 0)
+        ds_map_delete(spells, s);
+        
+    s = ds_map_find_next(spells, s);
+}
+
+// spawn
+if (spawn &lt; 1.0)
+    spawn += 0.025;
+    
+// cooldown
+if (cooldown &gt; 0)
+    cooldown -= 1;
+    
+// gravity
+if (z &gt; 0) 
+    zspeed -= 0.25;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Effects
+
+// regen
+if (spellTick("regen"))
+{
+    //emit(10, make_color_rgb(random(155) + 100, 0, 0));
+    gib(32, make_color_rgb(random(155) + 100, 0, 0));
+    hp += 2;
+}
+// mana
+else if (spellTick("mana"))
+{
+    emit(10, make_color_rgb(0, 0, random(155) + 100));
+    mana += 2;
+}
+// default
+else
+    color = c_white;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Pickup Item
+pickup = instance_nearest(x, y, o_item);
+if (point_distance_3d(x, y, z, pickup.x, pickup.y, pickup.z) &lt; 16)
+{
+    switch(color_get_hue(pickup.color))
+    {
+        // red
+        case 0:
+            if (hp &lt; max_hp)
+            {
+                pickup.fade = true;
+                ds_map_add(spells, "regen", 5 * room_speed);
+            }
+            break;
+        // green
+        case 85:
+            break;
+        // blue
+        case 170:
+            if (mana &lt; max_mana)
+            {
+                pickup.fade = true;
+                ds_map_add(spells, "mana", 5 * room_speed);
+            }
+            break;
+        // yellow
+        case 43:
+            break;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -97,26 +235,44 @@ if (key_l &gt; 0)
     tfacing = point_direction(0, 0, key_x, key_y) + cam_d;
 }
 
-// camera view with ALT
-//if (!keyboard_check(vk_alt))
-//{
-    //tfacing = cam_d;
-    // rotate towards target facing direction
-    facing += max(-15, min(15, cycle(tfacing - facing, -180, 180)));
-//}
-
-// z movement
-if (z &gt; 0) 
-    zspeed -= 0.25; // accelerate downwards if in air
-z += zspeed;
+// hit ground
 if (z &lt; 0) 
 { 
-    // hit ground
     z = 0;
     zspeed = 0;
 }
-if ((z &lt;= 0) &amp;&amp; keyboard_check(vk_space)) 
-    zspeed = 5; // jumping
+// jump
+if (z &lt;= 0 &amp;&amp; keyboard_check(vk_space)) 
+    zspeed = 5;
+    
+z += zspeed;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Camera Mode
+if (!keyboard_check(vk_alt))
+{
+    tfacing = cam_d;
+    // rotate towards target facing direction
+    facing += max(-15, min(15, cycle(tfacing - facing, -180, 180)));
+}
 </string>
           </argument>
         </arguments>
@@ -149,84 +305,6 @@ if (mouse_check_button_released(mb_left))
     cooldown = charge;
     charge = 0;
 }
-
-// cooldown
-if (cooldown &gt; 0)
-    cooldown -= 1;
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Spawn
-if (spawn &lt; 1.0)
-    spawn += 0.025;
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Targeting &amp; Pickup
-target = instance_nearest(x, y, o_item);
-// pickup
-if (instance_exists(target) &amp;&amp; point_distance_3d(x, y, z, target.x, target.y, target.z) &lt; 16)
-{
-    switch(color_get_hue(target.color))
-    {
-        // red
-        case 0:
-            if (hp &lt; max_hp)
-            {
-                target.decay = true;
-                hp += 2;
-            }
-            break;
-        // green
-        case 85:
-            break;
-        // blue
-        case 170:
-            if (mana &lt; max_mana)
-            {
-                target.decay = true;
-                mana += 2;
-            }
-            break;
-        // yellow
-        case 43:
-            break;
-    }
-}
 </string>
           </argument>
         </arguments>
@@ -251,27 +329,65 @@ if (instance_exists(target) &amp;&amp; point_distance_3d(x, y, z, target.x, targ
             <kind>1</kind>
             <string>/// HUD
 offset = 16;
-xx = view_wview[0] / 2;
-yy = view_hview[0] / 2;
 
 d3d_set_lighting(false);
 
+// health
 draw_healthbar(offset, offset, offset + 256, offset + 16, (hp / max_hp) * 100, c_white, c_maroon, c_red, 0, false, true);
 draw_text_color(offset, offset, hp, c_white, c_white, c_white, c_white, 1.0);
-
+// mana
 draw_healthbar(offset, offset + 20, offset + 256, offset + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
 draw_text_color(offset, offset + 20, mana, c_white, c_white, c_white, c_white, 1.0);
 
-if (instance_exists(target))
+// retina size scales with camera
+r = sqr(zsize) / (o_camera.distance / 32);
+draw_circle_color(view_wview[0] / 2, view_hview[0] / 2, r, c_black, c_black, 1);
+// incoming attack
+/*for (var i = 0; i &lt; ds_list_size(targets); i++)
 {
-    // attack direction
-    r = sqr(zsize / 1.5) / (o_camera.distance / 32);
-    ax = lengthdir_x(r, target.attack_dir);
-    ay = lengthdir_y(r, target.attack_dir);
-    draw_circle_color(view_wview[0] / 2, view_hview[0] / 2 - zsize, r, c_black, c_black, 1);
-    draw_circle_color(view_wview[0] / 2 + ax, view_hview[0] / 2 - zsize + ay, r / 8, target.color, target.color, false);
-}
+    t = ds_list_find_value(targets, i);
+    if (instance_exists(t))
+    {
+        ax = lengthdir_x(r, t.attack_dir);
+        ay = lengthdir_y(r, t.attack_dir);
+        draw_circle_color(view_wview[0] / 2 + ax, view_hview[0] / 2 + ay, r / 8, t.color, t.color, false);
+    }
+}*/
     
+d3d_set_lighting(true);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// HUD (debug)
+d3d_set_lighting(false);
+
+if (debug_mode)
+{
+    // draw all instances
+    for (var i = 0; i &lt; instance_count; i++)
+    {
+        obj = instance_id[i].object_index;
+        draw_text_color(16, 64 + (i * 16), object_get_name(obj), c_white, c_white, c_white, c_white, 0.75);
+    }
+}
+
 d3d_set_lighting(true);
 </string>
           </argument>
@@ -307,9 +423,15 @@ celShading();
 draw_set_alpha(spawn);
 draw_set_color(c_black);
 d3d_draw_block(-ssize, -ssize, zsize + 0.5, ssize, ssize, -0.5, -1, 1, 1);
-draw_set_color(c_white);
+draw_set_color(color);
 d3d_draw_block(-size, -size, 0, size, size, zsize, background_get_texture(b_player), 1, 1);
+draw_set_color(c_white);
 shader_reset();
+
+// draw combat zone radius
+d3d_set_lighting(false);
+draw_circle_color(0, 0, zone, c_white, c_white, true);
+d3d_set_lighting(true);
 
 d3d_transform_stack_pop();
 </string>

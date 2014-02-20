@@ -28,7 +28,7 @@
             <string>/// Initialize
 pan = 0;
 tilt = 30;
-distance = 45;
+distance = 60;
 fov = 60;
 z = 0;
 
@@ -97,7 +97,8 @@ texture_set_interpolation(false);
           <argument>
             <kind>1</kind>
             <string>/// Snap to Target
-if (instance_exists(target)) {
+if (instance_exists(target)) 
+{
     x = target.x;
     y = target.y;
     z = target.z + 8;
@@ -156,7 +157,7 @@ if (mlook)
           <argument>
             <kind>1</kind>
             <string>/// Zoom Out
-//if (distance &lt; 270)
+if (distance &lt; 270)
     distance += 10;
 </string>
           </argument>
@@ -181,7 +182,7 @@ if (mlook)
           <argument>
             <kind>1</kind>
             <string>/// Zoom In
-//if (distance &gt; 90)
+if (distance &gt; 30)
     distance -= 10;
 </string>
           </argument>
@@ -217,6 +218,7 @@ draw_set_halign(fa_right);
 draw_text_color(rx, 16, score, c_white, c_white, c_white, c_white, 1.0);
 draw_text_color(rx, 32, string(pan) + ", " + string(tilt) + ", " + string(distance), c_white, c_white, c_white, c_white, 1.0);
 draw_text_color(rx, 48, point_direction(xx, yy, o_sun.x, o_sun.z), c_white, c_white, c_white, c_white, 1.0);
+draw_text_color(rx, 64, string(round(fps_real)), c_white, c_white, c_white, c_white, 1.0);
 draw_set_halign(fa_left);
 
 d3d_set_lighting(true);

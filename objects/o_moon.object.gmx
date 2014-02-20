@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>/// Initialize
 z = 0;
-scale = 360;
+size = 360;
 dir = 0;
 orbit_speed = 8 / 60 /*/ 60*/;
 orbit_radius = 4800;
@@ -79,7 +79,7 @@ z = lengthdir_y(orbit_radius, dir);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// D3D Sun
+            <string>/// D3D
 d3d_transform_stack_push();
 
 // lighting
@@ -88,7 +88,7 @@ d3d_transform_stack_push();
 // drawing
 draw_set_alpha(1);
 d3d_set_lighting(false);
-d3d_draw_ellipsoid(x - scale, y - scale, z - scale, x + scale, y + scale, z + scale, background_get_texture(b_moon), scale / 8, scale / 8, 24);
+d3d_draw_ellipsoid(x - size, y - size, z - size, x + size, y + size, z + size, background_get_texture(b_moon), size / 8, size / 8, 24);
 d3d_set_lighting(true);
 
 d3d_transform_stack_pop();
