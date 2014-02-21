@@ -29,7 +29,7 @@
 speed = random(8) + 2;
 direction = random(360);
 life = random(15);
-scale = random(1.25);
+scale = random(0.40);
 color = c_white;
 size = 2;
 z = 0;
@@ -86,7 +86,7 @@ if (life &gt; 0)
 if (life &lt;= 0)
 {
     speed = 0;
-    alarm[0] = random(100000) / instance_count;
+    alarm[0] = random(10000) / instance_count;
 }
 </string>
           </argument>

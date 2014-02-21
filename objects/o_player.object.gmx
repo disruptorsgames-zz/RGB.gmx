@@ -43,7 +43,7 @@ mana = 0;
 spells = ds_map_create();
 shell = c_black;
 
-addSpell("spawn", 2);
+addSpell("invul", 3);
 </string>
           </argument>
         </arguments>
@@ -69,17 +69,15 @@ addSpell("spawn", 2);
             <string>/// Timers
 
 // spells
-s = ds_map_find_first(spells);
+spell = ds_map_find_first(spells);
 for (var i = 0; i &lt; ds_map_size(spells); i++)
 {
-    val = ds_map_find_value(spells, s);
-    
-    if (val &gt; 0)
-        ds_map_replace(spells, s, val - 1);
-    if (val == 0)
-        ds_map_delete(spells, s);
-        
-    s = ds_map_find_next(spells, s);
+    value = ds_map_find_value(spells, spell);
+    if (value &gt; 0)
+        ds_map_replace(spells, spell, value - 1);
+    else if (value == 0)
+        ds_map_delete(spells, spell);  
+    spell = ds_map_find_next(spells, spell);
 }
     
 // cooldown
@@ -111,11 +109,17 @@ if (z &gt; 0)
             <kind>1</kind>
             <string>/// Effects
 
-// spawn protection
-if (getSpell("spawn") &gt; 0)
+// invulnerability
+if (getSpell("invul") &gt; 0)
+{
+    invul = true;
     shell = c_red;
+}
 else
+{
+    invul = false;
     shell = c_black;
+}
 
 // spells
 if (tick(getSpell("regen")))
@@ -127,6 +131,11 @@ else if (tick(getSpell("mana")))
 {
     emit(10, make_color_rgb(0, 0, random(155) + 100));
     mana += 2;
+}
+else if (tick(getSpell("poison")))
+{
+    gib(32, make_color_rgb(random(55) + 200, 0, 0));
+    hp -= damage(self, 2);
 }
 </string>
           </argument>
@@ -162,6 +171,8 @@ if (point_distance_3d(x, y, z, pickup.x, pickup.y, pickup.z) &lt; 16)
             }
             break;
         case c_green:
+            pickup.fade = true;
+            addSpell("poison", 3);
             break;
         case c_blue:
             if (mana &lt; max_mana)
