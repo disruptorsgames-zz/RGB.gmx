@@ -29,9 +29,9 @@
 speed = random(8) + 2;
 direction = random(360);
 life = random(15);
-alpha = 1;
-color = c_white;
 scale = random(1.25);
+color = c_white;
+size = 2;
 z = 0;
 </string>
           </argument>
@@ -113,12 +113,15 @@ if (life &lt;= 0)
             <string>/// D3D
 d3d_transform_stack_push();
 
+// positioning
+d3d_transform_add_scaling(scale, scale, scale);
+d3d_transform_add_translation(x, y, z);
 // drawing
 celShading();
-draw_set_alpha(alpha);
 draw_set_color(color);
-d3d_draw_ellipsoid(x - scale, y - scale, z - scale, x + scale, y + scale, z + scale, sprite_get_texture(s_default, 0), scale / 2, scale / 2, 24);
+d3d_draw_ellipsoid(-size, -size, -size, size, size, size, background_get_texture(b_default), 1, 1, 24);
 draw_set_color(c_white);
+shader_reset();
 
 d3d_transform_stack_pop();
 </string>

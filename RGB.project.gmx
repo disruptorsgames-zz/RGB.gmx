@@ -13,8 +13,12 @@
     <sprites name="Spawns">
       <sprite>sprites\s_spawn</sprite>
     </sprites>
+    <sprites name="Icons">
+      <sprite>sprites\s_noicon</sprite>
+      <sprite>sprites\s_regen</sprite>
+      <sprite>sprites\s_mana</sprite>
+    </sprites>
     <sprites name="World">
-      <sprite>sprites\s_default</sprite>
       <sprite>sprites\s_item</sprite>
       <sprite>sprites\s_moon</sprite>
       <sprite>sprites\s_sun</sprite>
@@ -22,6 +26,7 @@
   </sprites>
   <backgrounds name="background">
     <background>background\b_celshading</background>
+    <background>background\b_default</background>
     <background>background\b_ground</background>
     <background>background\b_moon</background>
     <background>background\b_player</background>
@@ -30,23 +35,36 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\createFromObj.gml</script>
-    <script>scripts\cycle.gml</script>
-    <scripts name="events">
-      <script>scripts\spellTick.gml</script>
+    <scripts name="calculations">
+      <script>scripts\tick.gml</script>
+      <script>scripts\cycle.gml</script>
     </scripts>
-    <scripts name="shaders">
-      <script>scripts\celShading.gml</script>
+    <scripts name="draw">
+      <script>scripts\createFromObj.gml</script>
+      <script>scripts\drawBlock.gml</script>
+      <script>scripts\drawTextExt.gml</script>
+      <script>scripts\drawText.gml</script>
     </scripts>
     <scripts name="effects">
       <script>scripts\emit.gml</script>
       <script>scripts\gib.gml</script>
+    </scripts>
+    <scripts name="spells">
+      <script>scripts\getSpell.gml</script>
+      <script>scripts\addSpell.gml</script>
+      <script>scripts\getIcon.gml</script>
+    </scripts>
+    <scripts name="shaders">
+      <script>scripts\celShading.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\vfx_celshading.shader</shader>
     <shader type="GLSLES">shaders\vfx_diffuse_textured.shader</shader>
   </shaders>
+  <fonts name="fonts">
+    <font>fonts\f_hud</font>
+  </fonts>
   <objects name="objects">
     <objects name="Effects">
       <object>objects\o_gib</object>

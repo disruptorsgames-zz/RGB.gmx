@@ -1,3 +1,4 @@
+/// emit(count, color)
 repeat(round(random(argument0)))
 {
     with (instance_create(x, y, o_float))

@@ -26,33 +26,24 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
-
-// coordinates / size 
 z = 0;
-scale = 1;
 size = 8;
-ssize = size + 0.5;
-zsize = 16;
 facing = 0;
 tfacing = 0;
-// movement
 zspeed = 0;
 walkspeed = 1.75;
-cooldown = 90;
-charge = 0;
-spawn = 0;
 key_x = 0;
 key_y = 0;
-// spells
-spells = ds_map_create();
-// stats
+charge = 0;
+cooldown = 3 * room_speed;
 max_hp = 100;
 hp = 50;
 max_mana = 100;
 mana = 0;
-// other
-zone = 80;
-color = c_white;
+spells = ds_map_create();
+shell = c_black;
+
+addSpell("spawn", 2);
 </string>
           </argument>
         </arguments>
@@ -90,10 +81,6 @@ for (var i = 0; i &lt; ds_map_size(spells); i++)
         
     s = ds_map_find_next(spells, s);
 }
-
-// spawn
-if (spawn &lt; 1.0)
-    spawn += 0.025;
     
 // cooldown
 if (cooldown &gt; 0)
@@ -124,22 +111,23 @@ if (z &gt; 0)
             <kind>1</kind>
             <string>/// Effects
 
-// regen
-if (spellTick("regen"))
+// spawn protection
+if (getSpell("spawn") &gt; 0)
+    shell = c_red;
+else
+    shell = c_black;
+
+// spells
+if (tick(getSpell("regen")))
 {
-    //emit(10, make_color_rgb(random(155) + 100, 0, 0));
-    gib(32, make_color_rgb(random(155) + 100, 0, 0));
+    emit(10, make_color_rgb(random(155) + 100, 0, 0));
     hp += 2;
 }
-// mana
-else if (spellTick("mana"))
+else if (tick(getSpell("mana")))
 {
     emit(10, make_color_rgb(0, 0, random(155) + 100));
     mana += 2;
 }
-// default
-else
-    color = c_white;
 </string>
           </argument>
         </arguments>
@@ -164,29 +152,25 @@ else
 pickup = instance_nearest(x, y, o_item);
 if (point_distance_3d(x, y, z, pickup.x, pickup.y, pickup.z) &lt; 16)
 {
-    switch(color_get_hue(pickup.color))
+    switch(pickup.color)
     {
-        // red
-        case 0:
+        case c_red:
             if (hp &lt; max_hp)
             {
                 pickup.fade = true;
-                ds_map_add(spells, "regen", 5 * room_speed);
+                addSpell("regen", 5);
             }
             break;
-        // green
-        case 85:
+        case c_green:
             break;
-        // blue
-        case 170:
+        case c_blue:
             if (mana &lt; max_mana)
             {
                 pickup.fade = true;
-                ds_map_add(spells, "mana", 5 * room_speed);
+                addSpell("mana", 5);
             }
             break;
-        // yellow
-        case 43:
+        case c_yellow:
             break;
     }
 }
@@ -328,19 +312,28 @@ if (mouse_check_button_released(mb_left))
           <argument>
             <kind>1</kind>
             <string>/// HUD
-offset = 16;
+lx = 16;
+rx = view_wview[0] - 34;
 
 d3d_set_lighting(false);
 
 // health
-draw_healthbar(offset, offset, offset + 256, offset + 16, (hp / max_hp) * 100, c_white, c_maroon, c_red, 0, false, true);
-draw_text_color(offset, offset, hp, c_white, c_white, c_white, c_white, 1.0);
+draw_healthbar(lx, lx, lx + 256, lx + 16, (hp / max_hp) * 100, c_white, c_maroon, c_red, 0, false, true);
+drawText(lx, lx, hp, c_white);
 // mana
-draw_healthbar(offset, offset + 20, offset + 256, offset + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
-draw_text_color(offset, offset + 20, mana, c_white, c_white, c_white, c_white, 1.0);
-
-// retina size scales with camera
-r = sqr(zsize) / (o_camera.distance / 32);
+draw_healthbar(lx, lx + 20, lx + 256, lx + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
+drawText(lx, lx + 20, mana, c_white);
+// spell bar
+spell = ds_map_find_first(spells);
+for (var i = 0; i &lt; ds_map_size(spells); i++)
+{
+    draw_sprite(getIcon(spell), -1, rx - i * 32, 2);
+    value = round(ds_map_find_value(spells, spell) / room_speed);
+    drawText(rx - i * (32 - string_width(value)), 4, string(value) + "s", c_white);
+    spell = ds_map_find_next(spells, spell);
+}
+// retina
+r = sqr(size * 2) / (o_camera.distance / 32);
 draw_circle_color(view_wview[0] / 2, view_hview[0] / 2, r, c_black, c_black, 1);
 // incoming attack
 /*for (var i = 0; i &lt; ds_list_size(targets); i++)
@@ -384,7 +377,7 @@ if (debug_mode)
     for (var i = 0; i &lt; instance_count; i++)
     {
         obj = instance_id[i].object_index;
-        draw_text_color(16, 64 + (i * 16), object_get_name(obj), c_white, c_white, c_white, c_white, 0.75);
+        drawTextExt(16, 64 + (i * 16), object_get_name(obj), c_white, 0.75, f_hud, fa_left);
     }
 }
 
@@ -416,22 +409,11 @@ d3d_transform_stack_push();
  
 // positioning
 d3d_transform_add_rotation_z(facing);
-d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 1);
 // drawing
 celShading();
-draw_set_alpha(spawn);
-draw_set_color(c_black);
-d3d_draw_block(-ssize, -ssize, zsize + 0.5, ssize, ssize, -0.5, -1, 1, 1);
-draw_set_color(color);
-d3d_draw_block(-size, -size, 0, size, size, zsize, background_get_texture(b_player), 1, 1);
-draw_set_color(c_white);
+drawBlock(c_white, size, background_get_texture(b_player), shell);
 shader_reset();
-
-// draw combat zone radius
-d3d_set_lighting(false);
-draw_circle_color(0, 0, zone, c_white, c_white, true);
-d3d_set_lighting(true);
 
 d3d_transform_stack_pop();
 </string>

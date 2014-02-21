@@ -17,7 +17,7 @@ uniform vec3 lightPos;
 
 void main()
 {
-    vec4 object_space_pos = vec4( in_Position.x, in_Position.y, in_Position.z, 1.0);
+    vec4 object_space_pos = vec4(in_Position.x, in_Position.y, in_Position.z, 1.0);
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * object_space_pos;
     
     v_vColour = in_Colour;
@@ -39,5 +39,5 @@ uniform sampler2D celShadingSample;
 
 void main()
 {
-    gl_FragColor = v_vColour * texture2D( gm_BaseTexture, v_vTexcoord ) * texture2D( celShadingSample, vec2(dp, 0.0));
+    gl_FragColor = v_vColour * texture2D(gm_BaseTexture, v_vTexcoord) * texture2D(celShadingSample, vec2(dp, 0.0));
 }

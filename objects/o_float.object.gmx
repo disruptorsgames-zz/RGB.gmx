@@ -28,7 +28,7 @@
             <string>/// Initialize
 color = c_white;
 size = 4;
-scale = 1;
+scale = random(1.25);
 wave = random(360);
 z = 8 + lengthdir_x(2, wave);
 </string>
@@ -91,11 +91,11 @@ d3d_transform_stack_push();
 
 // positioning
 d3d_transform_add_scaling(scale, scale, scale);
-d3d_transform_add_translation(x, y, z + 4);
+d3d_transform_add_translation(x, y, z);
 // drawing
 celShading();
 draw_set_color(color);
-d3d_draw_ellipsoid(-size, -size, -size, size, size, size, sprite_get_texture(s_default, 0), 1, 1, 24);
+d3d_draw_ellipsoid(-size, -size, -size, size, size, size, background_get_texture(b_default), 1, 1, 24);
 draw_set_color(c_white);
 shader_reset();
 

@@ -189,44 +189,6 @@ if (distance &gt; 30)
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// HUD
-xx = o_player.x;
-yy = o_player.y;
-
-d3d_set_lighting(false);
-
-// DEBUG STUFF
-rx = view_wview[0] - 16;
-draw_set_halign(fa_right);
-draw_text_color(rx, 16, score, c_white, c_white, c_white, c_white, 1.0);
-draw_text_color(rx, 32, string(pan) + ", " + string(tilt) + ", " + string(distance), c_white, c_white, c_white, c_white, 1.0);
-draw_text_color(rx, 48, point_direction(xx, yy, o_sun.x, o_sun.z), c_white, c_white, c_white, c_white, 1.0);
-draw_text_color(rx, 64, string(round(fps_real)), c_white, c_white, c_white, c_white, 1.0);
-draw_set_halign(fa_left);
-
-d3d_set_lighting(true);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
