@@ -25,9 +25,96 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Start Server
-port = 6510;
-global.server = network_create_server(network_socket_tcp, port, 32);
+            <string>/// Initialize
+display = 0;
+objects = ds_list_create();
+global.commands = ds_map_create();
+global.console = ds_list_create();
+global.typing = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Get Objects
+for (var i = 0; i &lt; instance_count; i++)
+{
+    if (!instance_exists(instance_id[i]))
+        continue;
+
+    obj = instance_id[i].object_index;
+    if (ds_list_find_index(objects, obj) == -1)
+        ds_list_add(objects, obj);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Display Text
+d3d_set_lighting(false);
+
+switch (display)
+{
+    // objects
+    case 0:
+        for (var i = 0; i &lt; ds_list_size(objects); i++)
+        {
+            obj = ds_list_find_value(objects, i);
+            drawTextExt(16, 64 + (i * 16), object_get_name(obj), c_white, 0.75, f_hud, fa_left);
+        }
+        break;
+    // console
+    case 1:
+        for (var i = 0; i &lt; ds_list_size(global.console); i++)
+        {
+            text = ds_list_find_value(global.console, i);
+            drawTextExt(16, 64 + (i * 16), text, c_white, 0.75, f_hud, fa_left);
+        }
+        break;
+}
+
+if (global.typing)
+{
+    input = ternary(global.typing, keyboard_string + "|", keyboard_string);
+    drawTextExt(16, view_hview[0] - 32, input, c_white, 0.75, f_hud, fa_left);
+}
+
+d3d_set_lighting(true);
 </string>
           </argument>
         </arguments>
@@ -92,6 +179,83 @@ d3d_draw_wall(room_width, 0, 0, 0, 0, 32, tex, room_width / 16, 2);
 shader_reset();
 
 d3d_transform_stack_pop();*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="112">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Toggle Display
+display = ternary(display &gt; 1, 0, display + 1);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Toggle Typing
+if (global.typing)
+{
+    if (string_pos("/", keyboard_string) == 1)
+    {
+        command = string_replace(keyboard_string, "/", "");
+        args = split(command, " ");
+        switch (args[0])
+        {
+            case "help":
+                cout("This is the help system...");
+                break;
+            case "server":
+                cout("Server " + args[1] + " was created");
+                break;
+            default:
+                cout("Invalid command: (" + args[0] + ")");
+                break;
+        }
+    }
+    else
+        cout(keyboard_string);
+
+    global.typing = false;
+    keyboard_string = "";
+}
+else
+{
+    keyboard_string = "";
+    global.typing = true;
+}
 </string>
           </argument>
         </arguments>

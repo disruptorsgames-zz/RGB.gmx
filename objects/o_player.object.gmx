@@ -36,12 +36,14 @@ key_x = 0;
 key_y = 0;
 charge = 0;
 cooldown = 3 * room_speed;
+name = "Player";
 max_hp = 100;
 hp = 50;
 max_mana = 100;
 mana = 0;
 spells = ds_map_create();
 shell = c_black;
+invul = false;
 
 addSpell("invul", 3);
 </string>
@@ -125,12 +127,12 @@ else
 if (tick(getSpell("regen")))
 {
     emit(10, make_color_rgb(random(155) + 100, 0, 0));
-    hp += 2;
+    hp += regen(self, 2);
 }
 else if (tick(getSpell("mana")))
 {
     emit(10, make_color_rgb(0, 0, random(155) + 100));
-    mana += 2;
+    mp += regen(self, 2);
 }
 else if (tick(getSpell("poison")))
 {
@@ -223,7 +225,7 @@ if (key_l &gt; 1)
 }
 
 // actually move around, if needed
-if (key_l &gt; 0) 
+if (key_l &gt; 0 &amp;&amp; !global.typing) 
 {
     x += (lengthdir_x(key_x, cam_d) + lengthdir_x(key_y, cam_d - 90)) * walkspeed;
     y += (lengthdir_y(key_x, cam_d) + lengthdir_y(key_y, cam_d - 90)) * walkspeed;
@@ -237,7 +239,7 @@ if (z &lt; 0)
     zspeed = 0;
 }
 // jump
-if (z &lt;= 0 &amp;&amp; keyboard_check(vk_space)) 
+if (z &lt;= 0 &amp;&amp; keyboard_check(vk_space) &amp;&amp; !global.typing) 
     zspeed = 5;
     
 z += zspeed;
@@ -363,40 +365,6 @@ d3d_set_lighting(true);
           </argument>
         </arguments>
       </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// HUD (debug)
-d3d_set_lighting(false);
-
-if (debug_mode)
-{
-    // draw all instances
-    for (var i = 0; i &lt; instance_count; i++)
-    {
-        obj = instance_id[i].object_index;
-        drawTextExt(16, 64 + (i * 16), object_get_name(obj), c_white, 0.75, f_hud, fa_left);
-    }
-}
-
-d3d_set_lighting(true);
-</string>
-          </argument>
-        </arguments>
-      </action>
     </event>
     <event eventtype="8" enumb="0">
       <action>
@@ -427,6 +395,58 @@ drawBlock(c_white, size, background_get_texture(b_player), shell);
 shader_reset();
 
 d3d_transform_stack_pop();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="82">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Restart
+if (!global.typing)
+    game_restart();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="27">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Quit
+if (global.typing)
+    global.typing = false;
+else
+    game_end();
 </string>
           </argument>
         </arguments>

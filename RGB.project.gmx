@@ -40,6 +40,11 @@
       <script>scripts\tick.gml</script>
       <script>scripts\cycle.gml</script>
       <script>scripts\damage.gml</script>
+      <script>scripts\regen.gml</script>
+    </scripts>
+    <scripts name="console">
+      <script>scripts\split.gml</script>
+      <script>scripts\cout.gml</script>
     </scripts>
     <scripts name="draw">
       <script>scripts\createFromObj.gml</script>
@@ -53,6 +58,8 @@
     </scripts>
     <scripts name="function">
       <script>scripts\ternary.gml</script>
+      <script>scripts\toggle.gml</script>
+      <script>scripts\array.gml</script>
     </scripts>
     <scripts name="shaders">
       <script>scripts\celShading.gml</script>
