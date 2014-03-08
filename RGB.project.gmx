@@ -43,8 +43,8 @@
       <script>scripts\regen.gml</script>
     </scripts>
     <scripts name="console">
-      <script>scripts\split.gml</script>
       <script>scripts\cout.gml</script>
+      <script>scripts\split.gml</script>
     </scripts>
     <scripts name="draw">
       <script>scripts\createFromObj.gml</script>
@@ -57,9 +57,9 @@
       <script>scripts\gib.gml</script>
     </scripts>
     <scripts name="function">
+      <script>scripts\array.gml</script>
       <script>scripts\ternary.gml</script>
       <script>scripts\toggle.gml</script>
-      <script>scripts\array.gml</script>
     </scripts>
     <scripts name="shaders">
       <script>scripts\celShading.gml</script>
@@ -94,6 +94,10 @@
       <object>objects\o_moon</object>
       <object>objects\o_sun</object>
       <object>objects\o_world</object>
+    </objects>
+    <objects name="Networking">
+      <object>objects\o_server</object>
+      <object>objects\o_client</object>
     </objects>
   </objects>
   <rooms name="rooms">
