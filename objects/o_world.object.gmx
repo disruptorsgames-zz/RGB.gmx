@@ -245,64 +245,51 @@ display = ternary(display &gt; 1, 0, display + 1);
             <string>/// Toggle Typing
 if (global.typing)
 {
-    // only get commands that start with forwards slash
-    if (string_pos("/", keyboard_string) == 1)
+    // say
+    switch (parse(keyboard_string))
     {
-        // get command arguments split by spaces
-        args = split(string_replace(keyboard_string, "/", ""), " ");
-        cmd = args[0];
-        // check global command catalog
-        if (ds_map_exists(commands, cmd))
-        {
-            // find command parameter count
-            params = split(ds_map_find_value(commands, cmd), ",");
-            if (array_length_1d(args) - 1 == array_length_1d(params) - 1)
+        case "help":
+            cout("Commands:");
+            key = ds_map_find_first(commands);
+            for (var i = 0; i &lt; ds_map_size(commands); i++)
             {
-                switch(cmd)
-                {
-                    case "help":
-                        cout("Commands:");
-                        key = ds_map_find_first(commands);
-                        for (var i = 0; i &lt; ds_map_size(commands); i++)
-                        {
-                            value = ds_map_find_value(commands, key);
-                            cout("-" + key + string_replace(string(value), ",", " "));
-                            key = ds_map_find_next(commands, key);
-                        }
-                        break;
-                    case "server":
-                        server = instance_create(0, 0, o_server);
-                        server.max_clients = round(real(args[1]));
-                        cout("Server created with " + string(server.max_clients) + " max clients");
-                        break;
-                    case "connect":
-                        client = instance_create(0, 0, o_client);
-                        client.host = split(args[1], ":");
-                        break;
-                    case "disconnect":
-                        with(instance_nearest(0, 0, o_client))
-                        {
-                            disconnect = true;
-                        }
-                        break;
-                }
+                value = ds_map_find_value(commands, key);
+                cout("-" + key + string_replace(string(value), ",", " "));
+                key = ds_map_find_next(commands, key);
             }
-            else
+            break;
+        case "server":
+            server = instance_create(0, 0, o_server);
+            server.max_clients = round(real(args[1]));
+            cout("Server created with " + string(server.max_clients) + " max clients");
+            break;
+        case "connect":
+            client = instance_create(0, 0, o_client);
+            client.host = split(args[1], ":");
+            break;
+        case "disconnect":
+            with(instance_nearest(0, 0, o_client))
             {
-                cout("Usage:");
-                cout("-" + cmd + string_replace(ds_map_find_value(commands, cmd), ",", " "));
+                disconnect = true;
             }
-        }
-        else
-            cout("Invalid command: " + cmd);
+            break;
+        case "invalid":
+            cout("Invalid command: " + cmd)
+            break;
+        case "misuse":
+            cout("Usage:");
+            cout("-" + cmd + string_replace(ds_map_find_value(commands, cmd), ",", " "));
+            break;
+        case "say":
+            cout(o_player.name + ": " + keyboard_string);
+            break;
     }
-    else
-        cout(keyboard_string);
 
     // clear and stop typing
     keyboard_string = "";
     global.typing = false;
     args = 0;
+    cmd = "";
 }
 else
 {

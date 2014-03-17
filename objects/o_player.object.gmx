@@ -132,7 +132,7 @@ if (tick(getSpell("regen")))
 else if (tick(getSpell("mana")))
 {
     emit(10, make_color_rgb(0, 0, random(155) + 100));
-    mp += regen(self, 2);
+    mana += regen(self, 2);
 }
 else if (tick(getSpell("poison")))
 {

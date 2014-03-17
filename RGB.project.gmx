@@ -45,6 +45,7 @@
     <scripts name="console">
       <script>scripts\cout.gml</script>
       <script>scripts\split.gml</script>
+      <script>scripts\parse.gml</script>
     </scripts>
     <scripts name="draw">
       <script>scripts\createFromObj.gml</script>
