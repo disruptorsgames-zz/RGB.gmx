@@ -1,18 +1,28 @@
-// only get values that start with forwards slash
-if (string_pos("/", keyboard_string) != 1)
+///parse(string)
+if (string_pos("/", argument0) != 1)
     return "say";
 
-// get command arguments split by spaces
-args = split(string_replace(keyboard_string, "/", ""), " ");
-cmd = args[0];
+var input, value, args, len, cmd, params;
 
-// not a valid command
-if (!ds_map_exists(commands, cmd))
+input = string_replace(argument0, "/", "");
+args =  split(input, " ");
+len = array_length_1d(args);
+cmd = ternary(len > 0 && !isEmpty(args[len - 1]), args[0], input);
+
+value = ds_map_find_value(commands, cmd);
+
+if (value == "0")
+{
+    cout("Invalid command: " + string(cmd));
     return "invalid";
+}
 
-// check command parameters
-params = split(ds_map_find_value(commands, cmd), ",");
-if (array_length_1d(args) - 1 == array_length_1d(params) - 1)
-    return cmd;
-else
+params = split(value, ",");
+if (len != array_length_1d(params))
+{
+    cout("Usage:");
+    cout("-" + cmd + string_replace(value, ",", " "));
     return "misuse";
+}
+
+return cmd;

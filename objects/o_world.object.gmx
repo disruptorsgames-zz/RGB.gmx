@@ -39,6 +39,10 @@ ds_map_add(commands, "help", "");
 ds_map_add(commands, "server", ",maxClients");
 ds_map_add(commands, "connect", ",ip:port");
 ds_map_add(commands, "disconnect", "");
+
+// welcome message
+cout("Welcome to RGB.");
+cout("Type /help for a list of commands.");
 </string>
           </argument>
         </arguments>
@@ -103,8 +107,9 @@ switch (display)
     case 0:
         for (var i = 0; i &lt; ds_list_size(objects); i++)
         {
+            t = instance_nearest(o_player.x, o_player.y, obj);
             obj = ds_list_find_value(objects, i);
-            drawTextExt(16, 64 + (i * 16), object_get_name(obj), c_white, 0.75, f_hud, fa_left);
+            drawTextExt(16, 64 + (i * 16), object_get_name(obj) + ":" + string(t), c_white, 0.75, f_hud, fa_left);
         }
         break;
     // console
@@ -242,15 +247,15 @@ display = ternary(display &gt; 1, 0, display + 1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Toggle Typing
+            <string>/// Console Input
 if (global.typing)
 {
-    // say
-    switch (parse(keyboard_string))
+    var cmd = parse(keyboard_string);    
+    switch (cmd)
     {
         case "help":
             cout("Commands:");
-            key = ds_map_find_first(commands);
+            var key = ds_map_find_first(commands);
             for (var i = 0; i &lt; ds_map_size(commands); i++)
             {
                 value = ds_map_find_value(commands, key);
@@ -259,12 +264,12 @@ if (global.typing)
             }
             break;
         case "server":
-            server = instance_create(0, 0, o_server);
+            var server = instance_create(0, 0, o_server);
             server.max_clients = round(real(args[1]));
             cout("Server created with " + string(server.max_clients) + " max clients");
             break;
         case "connect":
-            client = instance_create(0, 0, o_client);
+            var client = instance_create(0, 0, o_client);
             client.host = split(args[1], ":");
             break;
         case "disconnect":
@@ -274,22 +279,18 @@ if (global.typing)
             }
             break;
         case "invalid":
-            cout("Invalid command: " + cmd)
-            break;
         case "misuse":
-            cout("Usage:");
-            cout("-" + cmd + string_replace(ds_map_find_value(commands, cmd), ",", " "));
+            // these are handled in parse
             break;
         case "say":
-            cout(o_player.name + ": " + keyboard_string);
+            if (!isEmpty(keyboard_string))
+                cout(o_player.name + ": " + keyboard_string);
             break;
     }
 
     // clear and stop typing
     keyboard_string = "";
     global.typing = false;
-    args = 0;
-    cmd = "";
 }
 else
 {
