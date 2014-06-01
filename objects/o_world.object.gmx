@@ -107,8 +107,8 @@ switch (display)
     case 0:
         for (var i = 0; i &lt; ds_list_size(objects); i++)
         {
-            t = instance_nearest(o_player.x, o_player.y, obj);
             obj = ds_list_find_value(objects, i);
+            t = instance_nearest(o_player.x, o_player.y, obj);
             drawTextExt(16, 64 + (i * 16), object_get_name(obj) + ":" + string(t), c_white, 0.75, f_hud, fa_left);
         }
         break;
