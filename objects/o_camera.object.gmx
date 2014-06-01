@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>1024</depth>
+  <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -74,6 +74,10 @@ d3d_set_culling(true);
 d3d_set_hidden(true);
 d3d_set_shading(true);
 texture_set_interpolation(false);
+
+// debug for alpha
+//draw_set_alpha_test(true);
+//draw_set_alpha_test_ref_value(254);
 </string>
           </argument>
         </arguments>
@@ -97,6 +101,9 @@ texture_set_interpolation(false);
           <argument>
             <kind>1</kind>
             <string>/// Snap to Target
+if (target == -1 &amp;&amp; instance_exists(o_player))
+    target = o_player;
+    
 if (instance_exists(target)) 
 {
     x = target.x;

@@ -34,6 +34,12 @@
     <option_android_icon_36>Configs\Default\android\icons\icon36.png</option_android_icon_36>
     <option_android_icon_48>Configs\Default\android\icons\icon48.png</option_android_icon_48>
     <option_android_icon_72>Configs\Default\android\icons\icon72.png</option_android_icon_72>
+    <option_android_icon_hdpi>Configs\Default\android\icons\icon_hdpi.png</option_android_icon_hdpi>
+    <option_android_icon_ldpi>Configs\Default\android\icons\icon_ldpi.png</option_android_icon_ldpi>
+    <option_android_icon_mdpi>Configs\Default\android\icons\icon_mdpi.png</option_android_icon_mdpi>
+    <option_android_icon_xhdpi>Configs\Default\android\icons\icon_xhdpi.png</option_android_icon_xhdpi>
+    <option_android_icon_xxhdpi>Configs\Default\android\icons\icon_xxhdpi.png</option_android_icon_xxhdpi>
+    <option_android_icon_xxxhdpi>Configs\Default\android\icons\icon_xxxhdpi.png</option_android_icon_xxxhdpi>
     <option_android_inmobi_enable>0</option_android_inmobi_enable>
     <option_android_inmobi_id></option_android_inmobi_id>
     <option_android_inmobi_test_enable>0</option_android_inmobi_test_enable>
@@ -75,7 +81,7 @@
     <option_changeresolution>false</option_changeresolution>
     <option_closeesc>true</option_closeesc>
     <option_colordepth>0</option_colordepth>
-    <option_display_name>GameMaker: Studio</option_display_name>
+    <option_display_name>RGB</option_display_name>
     <option_displayerrors>True</option_displayerrors>
     <option_facebook_appid></option_facebook_appid>
     <option_facebook_enable>0</option_facebook_enable>
@@ -210,6 +216,8 @@
     <option_priority>0</option_priority>
     <option_ps4_interpolate>true</option_ps4_interpolate>
     <option_ps4_interpolation>true</option_ps4_interpolation>
+    <option_ps4_nptitleid></option_ps4_nptitleid>
+    <option_ps4_nptitlesecret></option_ps4_nptitlesecret>
     <option_ps4_package_id>IV0002-NPXS29129_00-APP0990000000022</option_ps4_package_id>
     <option_ps4_passcode>GvE6xCpZxd96scOUGuLPbuLp8O800B0s</option_ps4_passcode>
     <option_ps4_scale>-1</option_ps4_scale>
@@ -224,7 +232,7 @@
     <option_scaleprogress>true</option_scaleprogress>
     <option_screenkey>True</option_screenkey>
     <option_screenshotkey>true</option_screenshotkey>
-    <option_shortcircuit>true</option_shortcircuit>
+    <option_shortcircuit>True</option_shortcircuit>
     <option_showcursor>True</option_showcursor>
     <option_showprogress>1</option_showprogress>
     <option_sizeable>False</option_sizeable>
@@ -260,12 +268,12 @@
     <option_variableerrors>False</option_variableerrors>
     <option_version>100</option_version>
     <option_version_build>0</option_version_build>
-    <option_version_company></option_version_company>
-    <option_version_copyright></option_version_copyright>
+    <option_version_company>Disruptor's Games</option_version_company>
+    <option_version_copyright>Disruptor's Games</option_version_copyright>
     <option_version_description></option_version_description>
     <option_version_major>1</option_version_major>
     <option_version_minor>0</option_version_minor>
-    <option_version_product></option_version_product>
+    <option_version_product>RGB</option_version_product>
     <option_version_release>0</option_version_release>
     <option_win8_advertising_appid></option_win8_advertising_appid>
     <option_win8_advertising_enable>0</option_win8_advertising_enable>
@@ -304,8 +312,8 @@
     <option_win8_wide_logo>Configs\Default\Windows8\logos\logo310.png</option_win8_wide_logo>
     <option_windowcolor>clBlack</option_windowcolor>
     <option_windows_build_version>0</option_windows_build_version>
-    <option_windows_company_info></option_windows_company_info>
-    <option_windows_copyright_info></option_windows_copyright_info>
+    <option_windows_company_info>Disruptor's Games</option_windows_company_info>
+    <option_windows_copyright_info>Disruptor's Games</option_windows_copyright_info>
     <option_windows_description_info></option_windows_description_info>
     <option_windows_enable_steam>0</option_windows_enable_steam>
     <option_windows_game_icon>Configs\Default\windows\runner_icon.ico</option_windows_game_icon>
@@ -313,7 +321,7 @@
     <option_windows_mainor_version>0</option_windows_mainor_version>
     <option_windows_major_version>1</option_windows_major_version>
     <option_windows_nsis_file>Configs\Default\windows\RunnerInstaller.nsi</option_windows_nsis_file>
-    <option_windows_product_info></option_windows_product_info>
+    <option_windows_product_info>RGB</option_windows_product_info>
     <option_windows_release_version>0</option_windows_release_version>
     <option_windows_runner_finished>Configs\Default\windows\Runner_finish.bmp</option_windows_runner_finished>
     <option_windows_runner_header>Configs\Default\windows\Runner_header.bmp</option_windows_runner_header>

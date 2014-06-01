@@ -190,7 +190,6 @@ d3d_transform_stack_pop();
             <string>/// D3D Walls
 /*d3d_transform_stack_push();
 
-draw_set_alpha(1.0);
 draw_set_color(c_white);
 tex = background_get_texture(b_wall);
 celShading();

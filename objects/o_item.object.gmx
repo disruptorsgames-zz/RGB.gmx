@@ -3,7 +3,7 @@
   <spriteName>s_item</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>1</depth>
+  <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -104,7 +104,7 @@ d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 4);
 // drawing
 celShading();
-draw_set_alpha(alpha);
+//draw_set_alpha(alpha);
 draw_set_color(c_black);
 d3d_draw_block(-4.5, -4.5, 4.5, 4.5, 4.5, -4.5, -1, 1, 1);
 draw_set_color(color);
