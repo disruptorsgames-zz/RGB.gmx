@@ -32,20 +32,28 @@ facing = 0;
 tfacing = 0;
 zspeed = 0;
 walkspeed = 1.75;
+runspeed = 2.5;
 key_x = 0;
 key_y = 0;
 charge = 0;
 cooldown = 3 * room_speed;
-name = "Player";
+name = "Sintel";
 max_hp = 100;
-hp = 50;
+hp = 100;
 max_mana = 100;
-mana = 0;
+mana = 100;
 spells = ds_map_create();
 shell = c_black;
 invul = false;
 
 addSpell("invul", 3);
+
+model = d3d_model_create();
+d3d_model_load(model, "Sintel.d3d");
+hair = d3d_model_create();
+d3d_model_load(hair, "Sintel_Hair.d3d");
+eyes = d3d_model_create();
+d3d_model_load(eyes, "Sintel_Eyes.d3d");
 </string>
           </argument>
         </arguments>
@@ -213,6 +221,7 @@ cam_d = global.camera_d;
 // vector with keyboard coordinate deltas
 key_x = keyboard_check(ord('W')) - keyboard_check(ord('S'));
 key_y = keyboard_check(ord('D')) - keyboard_check(ord('A'));
+run = keyboard_check(vk_shift);
 // length of that vector
 key_l = point_distance(0, 0, key_x, key_y);
 
@@ -227,8 +236,8 @@ if (key_l &gt; 1)
 // actually move around, if needed
 if (key_l &gt; 0 &amp;&amp; !global.typing) 
 {
-    x += (lengthdir_x(key_x, cam_d) + lengthdir_x(key_y, cam_d - 90)) * walkspeed;
-    y += (lengthdir_y(key_x, cam_d) + lengthdir_y(key_y, cam_d - 90)) * walkspeed;
+    x += (lengthdir_x(key_x, cam_d) + lengthdir_x(key_y, cam_d - 90)) * ternary(run, runspeed, walkspeed);
+    y += (lengthdir_y(key_x, cam_d) + lengthdir_y(key_y, cam_d - 90)) * ternary(run, runspeed, walkspeed);
     tfacing = point_direction(0, 0, key_x, key_y) + cam_d;
 }
 
@@ -385,13 +394,18 @@ d3d_set_lighting(true);
             <kind>1</kind>
             <string>/// D3D
 d3d_transform_stack_push();
- 
+
 // positioning
+d3d_transform_set_rotation_z(270);
+d3d_transform_add_scaling(15, 15, 15);
 d3d_transform_add_rotation_z(facing);
 d3d_transform_add_translation(x, y, z + 1);
 // drawing
 celShading();
-drawBlock(c_white, size, background_get_texture(b_player), shell);
+//drawBlock(c_white, size, background_get_texture(b_player), shell);
+d3d_model_draw(model, 0, 0, 0, background_get_texture(b_player));
+d3d_model_draw(hair, 0, 0, 0, background_get_texture(b_hair));
+d3d_model_draw(eyes, 0, 0, 0, background_get_texture(b_eye));
 shader_reset();
 
 d3d_transform_stack_pop();

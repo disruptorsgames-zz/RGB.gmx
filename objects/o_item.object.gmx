@@ -28,14 +28,17 @@
             <string>/// Initialize
 scale = 1;
 zsize = 8;
-rot_x = 0;
-rot_y = 0;
+rot_x = 270;
+rot_y = 90;
 rot_z = 0;
 fade = false;
 color = c_white;
 alpha = 0;
 attack_dir = round(random(360));
 z = 1;
+
+model = d3d_model_create();
+d3d_model_load(model, "Chest.d3d");
 </string>
           </argument>
         </arguments>
@@ -103,14 +106,18 @@ d3d_transform_add_rotation_y(rot_z);
 d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z + 4);
 // drawing
+//d3d_set_lighting(false);
 celShading();
-//draw_set_alpha(alpha);
-draw_set_color(c_black);
-d3d_draw_block(-4.5, -4.5, 4.5, 4.5, 4.5, -4.5, -1, 1, 1);
+draw_set_alpha(alpha);
+//draw_set_color(c_black);
+//d3d_draw_block(-4.5, -4.5, 4.5, 4.5, 4.5, -4.5, -1, 1, 1);
 draw_set_color(color);
-d3d_draw_block(-4, -4, -4, 4, 4, 4, sprite_get_texture(s_item, 0), 1, 1);
+//d3d_draw_block(-4, -4, -4, 4, 4, 4, background_get_texture(b_item), 1, 1);
+d3d_model_draw(model, 0, 0, 0, background_get_texture(b_default));
 draw_set_color(c_white);
+draw_set_alpha(1.0);
 shader_reset();
+//d3d_set_lighting(true);
 
 d3d_transform_stack_pop();
 </string>

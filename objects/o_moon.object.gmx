@@ -85,10 +85,16 @@ d3d_transform_stack_push();
 // lighting
 //d3d_light_define_direction(0, x, y, z, c_white);
 //d3d_light_enable(0, true);
+// positioning
+// positioning
+d3d_transform_add_scaling(5, 5, 5);
+d3d_transform_add_translation(x, y, z);
 // drawing
 d3d_set_lighting(false);
+celShading();
 d3d_draw_ellipsoid(x - size, y - size, z - size, x + size, y + size, z + size, background_get_texture(b_moon), size / 8, size / 8, 24);
 d3d_set_lighting(true);
+shader_reset();
 
 d3d_transform_stack_pop();
 </string>
