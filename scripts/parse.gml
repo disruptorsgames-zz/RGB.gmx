@@ -2,7 +2,7 @@
 if (string_pos("/", argument0) != 1)
     return "say";
 
-var input, value, args, len, cmd, params;
+var input, value, /*args,*/ len, cmd, params;
 
 input = string_replace(argument0, "/", "");
 args =  split(input, " ");
@@ -11,7 +11,7 @@ cmd = ternary(len > 0 && !isEmpty(args[len - 1]), args[0], input);
 
 value = ds_map_find_value(commands, cmd);
 
-if (value == "0")
+if (string(value) == "0")
 {
     cout("Invalid command: " + string(cmd));
     return "invalid";

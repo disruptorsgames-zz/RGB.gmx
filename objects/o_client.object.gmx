@@ -26,19 +26,17 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
-disconnect = false;
 host = split("localhost:6510", ":");
 ip = host[0];
-port = host[1];
+port = 6510;//host[1];
 client = network_create_socket(network_socket_udp);
-broadcast = network_create_server(network_socket_udp, 6511, 100);
 network_connect(client, ip, port);
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="1" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -55,43 +53,9 @@ network_connect(client, ip, port);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Check For Disconnect
-if (disconnect)
-{
-    ds_list_clear(global.serverlist);
-    network_destroy(client);
-    instance_destroy();
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="68">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Detect servers "broadcast"
-eventid = ds_map_find_value(async_load, "id");
-if(eventid == broadcast)
-{
-    ip = ds_map_find_value(async_load, "ip");
-    if (ds_list_find_index(global.serverlist, ip) &lt; 0)
-        ds_list_add(global.serverlist, ip);
-}
+            <string>/// Cleanup
+network_destroy(client);
+cout("Disconnected");
 </string>
           </argument>
         </arguments>

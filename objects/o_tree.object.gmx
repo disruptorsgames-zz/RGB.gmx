@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>o_thing</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -66,7 +66,7 @@ d3d_transform_add_translation(x, y, z);
 // draw
 celShading();
 d3d_model_draw(trunk, 0, 0, 0, background_get_texture(b_bark));
-d3d_model_draw(leaves, 0.175, 0, 3.25, background_get_texture(b_leaves));
+d3d_model_draw(leaves, 0, 0, 0, background_get_texture(b_leaves));
 shader_reset();
 
 d3d_transform_stack_pop();
@@ -78,7 +78,7 @@ d3d_transform_stack_pop();
   </events>
   <PhysicsObject>0</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
-  <PhysicsObjectShape>0</PhysicsObjectShape>
+  <PhysicsObjectShape>1</PhysicsObjectShape>
   <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>

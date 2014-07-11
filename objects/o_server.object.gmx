@@ -27,9 +27,37 @@
             <kind>1</kind>
             <string>/// Initialize
 max_clients = 32;
-server = network_create_server(network_socket_udp, 6510, max_clients);
+server = network_create_server(network_socket_tcp, 6510, max_clients);
+if (server &lt; 0)
+    instance_destroy();
 broadcast_buffer = buffer_create(32, buffer_fixed, 1);
 alarm[0] = 60;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Cleanup
+network_destroy(server);
+buffer_delete(broadcast_buffer);
+cout("Server disconnected");
 </string>
           </argument>
         </arguments>

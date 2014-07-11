@@ -29,7 +29,7 @@
 speed = random(8) + 2;
 direction = random(360);
 life = random(15);
-scale = random(0.40);
+scale = 2 + random(0.40);
 color = c_white;
 size = 2;
 z = 0;
@@ -117,11 +117,11 @@ d3d_transform_stack_push();
 d3d_transform_add_scaling(scale, scale, scale);
 d3d_transform_add_translation(x, y, z);
 // drawing
-celShading();
+d3d_set_lighting(false);
 draw_set_color(color);
 d3d_draw_ellipsoid(-size, -size, -size, size, size, size, background_get_texture(b_default), 1, 1, 24);
 draw_set_color(c_white);
-shader_reset();
+d3d_set_lighting(true);
 
 d3d_transform_stack_pop();
 </string>

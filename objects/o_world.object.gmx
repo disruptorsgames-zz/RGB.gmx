@@ -33,9 +33,11 @@ global.serverlist = ds_list_create();
 global.console = ds_list_create();
 global.typing = false;
 
-// basic
+// networking
+broadcast = network_create_server(network_socket_udp, 6511, 100);
+
+// commands
 ds_map_add(commands, "help", "");
-// network
 ds_map_add(commands, "server", ",maxClients");
 ds_map_add(commands, "connect", ",ip:port");
 ds_map_add(commands, "disconnect", "");
@@ -43,6 +45,10 @@ ds_map_add(commands, "disconnect", "");
 // welcome message
 cout("Welcome to RGB.");
 cout("Type /help for a list of commands.");
+cout("Press F2 to toggle console display modes");
+
+// run in release
+gml_release_mode(!debug_mode);
 </string>
           </argument>
         </arguments>
@@ -81,6 +87,41 @@ for (var i = 0; i &lt; instance_count; i++)
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="68">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Detect servers "broadcast"
+eventid = ds_map_find_value(async_load, "id");
+if(eventid == broadcast)
+{
+    // get server data
+    ip = ds_map_find_value(async_load, "ip");
+    text = buffer_read(ds_map_find_value(async_load, "buffer"), buffer_string );
+    
+    // add to server list
+    server = string(ip) + " - " + text;
+    if (ds_list_find_index(global.serverlist, server) &lt; 0)
+        ds_list_add(global.serverlist, server);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
@@ -103,8 +144,16 @@ d3d_set_lighting(false);
 
 switch (display)
 {
-    // objects
+    // console
     case 0:
+        for (var i = 0; i &lt; ds_list_size(global.console); i++)
+        {
+            text = ds_list_find_value(global.console, i);
+            drawTextExt(16, 64 + (i * 16), text, c_white, 0.75, f_hud, fa_left);
+        }
+        break;
+    // objects
+    case 1:
         for (var i = 0; i &lt; ds_list_size(objects); i++)
         {
             obj = ds_list_find_value(objects, i);
@@ -112,20 +161,12 @@ switch (display)
             drawTextExt(16, 64 + (i * 16), object_get_name(obj) + ":" + string(t), c_white, 0.75, f_hud, fa_left);
         }
         break;
-    // console
-    case 1:
-        for (var i = 0; i &lt; ds_list_size(global.console); i++)
-        {
-            text = ds_list_find_value(global.console, i);
-            drawTextExt(16, 64 + (i * 16), text, c_white, 0.75, f_hud, fa_left);
-        }
-        break;
     // network
     case 2:
         for (var i = 0; i &lt; ds_list_size(global.serverlist); i++)
         {
             text = ds_list_find_value(global.serverlist, i);
-            drawTextExt(16, 64 + (i * 16), text, c_white, 0.75, f_hud, fa_left);
+            drawTextExt(16, 64 + (i * 16), string(text), c_white, 0.75, f_hud, fa_left);
         }
         break;
 }
@@ -205,7 +246,7 @@ d3d_transform_stack_pop();*/
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="112">
+    <event eventtype="9" enumb="113">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -224,6 +265,70 @@ d3d_transform_stack_pop();*/
             <kind>1</kind>
             <string>/// Toggle Display
 display = ternary(display &gt; 1, 0, display + 1);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="82">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Restart
+if (!global.typing)
+    game_restart();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="27">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Quit
+if (global.typing)
+    global.typing = false;
+else
+{
+    // cleanup networking
+    network_destroy(broadcast);
+    with (o_server) { instance_destroy(); }
+    with (o_client) { instance_destroy(); }
+    // cleanup arrays
+    ds_list_destroy(global.serverlist);
+    ds_list_destroy(global.console);
+    ds_map_destroy(commands);
+    ds_list_destroy(objects);
+    
+    game_end();
+}
 </string>
           </argument>
         </arguments>
@@ -249,7 +354,7 @@ display = ternary(display &gt; 1, 0, display + 1);
             <string>/// Console Input
 if (global.typing)
 {
-    var cmd = parse(keyboard_string);    
+    var cmd = parse(keyboard_string);
     switch (cmd)
     {
         case "help":
@@ -272,10 +377,9 @@ if (global.typing)
             client.host = split(args[1], ":");
             break;
         case "disconnect":
-            with(instance_nearest(0, 0, o_client))
-            {
-                disconnect = true;
-            }
+            if (instance_exists(o_client))
+                o_client.disconnect = true;
+            disconnect = true;
             break;
         case "invalid":
         case "misuse":

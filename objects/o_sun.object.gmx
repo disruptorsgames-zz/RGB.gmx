@@ -82,9 +82,6 @@ z = lengthdir_y(orbit_radius, dir);
             <string>/// D3D
 d3d_transform_stack_push();
 
-// lighting
-//d3d_light_define_direction(0, 0, 1, 0, c_white);
-//d3d_light_enable(0, sign(z) == 1);
 // drawing
 d3d_set_lighting(false);
 d3d_draw_ellipsoid(x - size, y - size, z - size, x + size, y + size, z + size, background_get_texture(b_sun), size / 8, size / 8, 24);

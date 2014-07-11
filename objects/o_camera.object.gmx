@@ -29,8 +29,10 @@
 pan = 0;
 tilt = 30;
 distance = 60;
+offset = 14;// 8
 fov = 60;
 z = 0;
+lod = 16000; // may need tweaking for optimization
 
 // rotation speed (also for inverting controls)
 rotspeed_x = -0.95;
@@ -69,11 +71,13 @@ if (instance_exists(o_player))
             <string>/// D3D Setup
 d3d_start();
 d3d_set_lighting(true);
-//d3d_light_define_ambient(c_white);
+d3d_light_define_ambient(c_white);
+d3d_set_fog(true, c_black, lod, lod);
 d3d_set_culling(true);
 d3d_set_hidden(true);
 d3d_set_shading(true);
 texture_set_interpolation(false);
+draw_set_color(c_white);
 
 // debug for alpha
 //draw_set_alpha_test(true);
@@ -108,7 +112,7 @@ if (instance_exists(target))
 {
     x = target.x;
     y = target.y;
-    z = target.z + 8;
+    z = target.z + offset;
 }
 </string>
           </argument>
@@ -222,7 +226,7 @@ global.camera_d = pan;
 
 r = view_wview[0] / view_hview[0];
 
-d3d_set_projection_ext(global.camera_x, global.camera_y, global.camera_z, x, y, z, 0, 0, 1, fov, r, 1, 16000);
+d3d_set_projection_ext(global.camera_x, global.camera_y, global.camera_z, x, y, z, 0, 0, 1, fov, r, 1, lod);
 </string>
           </argument>
         </arguments>
