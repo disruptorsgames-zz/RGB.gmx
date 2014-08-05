@@ -26,21 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>/// Spawn Items
-
-// add # coins total:
-repeat (40) 
+repeat (round(random(room_width / 16)))
 {
-    // up to # attempts of finding non-overlapping position for coin
-    repeat (8) 
-    {
-        x = random(room_width - 16) + 8;
-        y = random(room_height - 16) + 8;
-        if (!place_meeting(x, y, o_item)) 
-        {
-            instance_create(x, y, o_tree);
-            break;
-        }
-    }
+    spawn(o_tree);
 }
 </string>
           </argument>

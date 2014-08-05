@@ -10,4 +10,4 @@ while (!place_free(sx, sy))
 }
 
 // spawn
-instance_create(sx, sy, argument0);
+return instance_create(sx, sy, argument0);

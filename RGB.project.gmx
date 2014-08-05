@@ -248,7 +248,7 @@
     <room>rooms\r_main</room>
   </rooms>
   <constants number="2">
-    <constant name="GM_build_date">41856.0642977199</constant>
+    <constant name="GM_build_date">41856.1011032407</constant>
     <constant name="GM_version">'1.0.0.0'</constant>
   </constants>
   <help>
