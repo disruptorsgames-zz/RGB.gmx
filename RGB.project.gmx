@@ -133,11 +133,16 @@
     <sprites name="Spawns">
       <sprite>sprites\s_spawn</sprite>
     </sprites>
-    <sprites name="Icons">
-      <sprite>sprites\s_mana</sprite>
-      <sprite>sprites\s_noicon</sprite>
-      <sprite>sprites\s_poison</sprite>
-      <sprite>sprites\s_regen</sprite>
+    <sprites name="UI">
+      <sprites name="Buffs">
+        <sprite>sprites\s_mana</sprite>
+        <sprite>sprites\s_noicon</sprite>
+        <sprite>sprites\s_poison</sprite>
+        <sprite>sprites\s_regen</sprite>
+      </sprites>
+      <sprites name="Hotbar">
+        <sprite>sprites\s_nohotbar</sprite>
+      </sprites>
     </sprites>
     <sprites name="World">
       <sprite>sprites\s_item</sprite>
@@ -167,10 +172,13 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <scripts name="calculations">
-      <script>scripts\tick.gml</script>
+      <script>scripts\center.gml</script>
       <script>scripts\cycle.gml</script>
       <script>scripts\damage.gml</script>
       <script>scripts\regen.gml</script>
+      <script>scripts\setTick.gml</script>
+      <script>scripts\spawn.gml</script>
+      <script>scripts\tick.gml</script>
     </scripts>
     <scripts name="console">
       <script>scripts\cout.gml</script>
@@ -179,10 +187,10 @@
       <script>scripts\split.gml</script>
     </scripts>
     <scripts name="draw">
-      <script>scripts\createFromObj.gml</script>
       <script>scripts\drawBlock.gml</script>
-      <script>scripts\drawTextExt.gml</script>
       <script>scripts\drawText.gml</script>
+      <script>scripts\drawTextExt.gml</script>
+      <script>scripts\drawTextIf.gml</script>
     </scripts>
     <scripts name="effects">
       <script>scripts\emit.gml</script>
@@ -196,9 +204,7 @@
     <scripts name="shaders">
       <script>scripts\celShading.gml</script>
     </scripts>
-    <scripts name="spells">
-      <script>scripts\getSpell.gml</script>
-      <script>scripts\addSpell.gml</script>
+    <scripts name="UI">
       <script>scripts\getIcon.gml</script>
     </scripts>
   </scripts>
@@ -214,6 +220,10 @@
       <object>objects\o_gib</object>
       <object>objects\o_float</object>
     </objects>
+    <objects name="Networking">
+      <object>objects\o_server</object>
+      <object>objects\o_client</object>
+    </objects>
     <objects name="Player">
       <object>objects\o_camera</object>
       <object>objects\o_player</object>
@@ -221,6 +231,9 @@
     <objects name="Spawns">
       <object>objects\o_items</object>
       <object>objects\o_trees</object>
+    </objects>
+    <objects name="UI">
+      <object>objects\o_hotbar</object>
     </objects>
     <objects name="World">
       <object>objects\o_item</object>
@@ -230,17 +243,13 @@
       <object>objects\o_tree</object>
       <object>objects\o_world</object>
     </objects>
-    <objects name="Networking">
-      <object>objects\o_server</object>
-      <object>objects\o_client</object>
-    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_main</room>
   </rooms>
   <constants number="2">
-    <constant name="GM_build_date">41830.2154232407</constant>
-    <constant name="GM_version">'1.0.0.1'</constant>
+    <constant name="GM_build_date">41856.0642977199</constant>
+    <constant name="GM_version">'1.0.0.0'</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

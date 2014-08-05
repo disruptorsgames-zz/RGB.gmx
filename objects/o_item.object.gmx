@@ -108,18 +108,39 @@ d3d_transform_add_translation(x, y, z + 1);
 // drawing
 //d3d_set_lighting(false);
 celShading();
-//draw_set_alpha(alpha);
-//draw_set_color(c_black);
-//d3d_draw_block(-4.5, -4.5, 4.5, 4.5, 4.5, -4.5, -1, 1, 1);
-draw_set_color(color);
-//d3d_draw_block(-4, -4, -4, 4, 4, 4, background_get_texture(b_item), 1, 1);
+draw_set_alpha(alpha);
+if (instance_exists(o_player) &amp;&amp; o_player.target == id)
+    draw_set_color(color);
 d3d_model_draw(model, 0, 0, 0, background_get_texture(b_chest));
 draw_set_color(c_white);
-//draw_set_alpha(1.0);
+draw_set_alpha(1.0);
 shader_reset();
 //d3d_set_lighting(true);
 
 d3d_transform_stack_pop();
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Target
+if (instance_exists(o_player) &amp;&amp; o_player.target == id)
+    draw_rectangle_color(x - zsize, y - zsize, x + zsize, y + zsize, c_black, c_black, c_black, c_black, true);
 </string>
           </argument>
         </arguments>

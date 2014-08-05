@@ -1,11 +1,11 @@
 ///parse(string)
-if (string_pos("/", argument0) != 1)
+if (string_char_at(argument0, 0) != "/")
     return "say";
 
 var input, value, /*args,*/ len, cmd, params;
 
 input = string_replace(argument0, "/", "");
-args =  split(input, " ");
+args =  split(input, " "); // args gets sent back
 len = array_length_1d(args);
 cmd = ternary(len > 0 && !isEmpty(args[len - 1]), args[0], input);
 

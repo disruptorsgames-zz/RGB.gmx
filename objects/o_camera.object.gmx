@@ -29,10 +29,13 @@
 pan = 0;
 tilt = 30;
 distance = 60;
-offset = 14;// 8
+zoffset = 14;// 8
+xoffset = 0;
+yoffset = 0;
 fov = 60;
 z = 0;
 lod = 16000; // may need tweaking for optimization
+firstperson = false;
 
 // rotation speed (also for inverting controls)
 rotspeed_x = -0.95;
@@ -76,8 +79,9 @@ d3d_set_fog(true, c_black, lod, lod);
 d3d_set_culling(true);
 d3d_set_hidden(true);
 d3d_set_shading(true);
-texture_set_interpolation(false);
+texture_set_interpolation(true);
 draw_set_color(c_white);
+d3d_set_perspective(true);
 
 // debug for alpha
 //draw_set_alpha_test(true);
@@ -110,9 +114,9 @@ if (target == -1 &amp;&amp; instance_exists(o_player))
     
 if (instance_exists(target)) 
 {
-    x = target.x;
-    y = target.y;
-    z = target.z + offset;
+    x = target.x + xoffset;
+    y = target.y + yoffset;
+    z = target.z + zoffset;
 }
 </string>
           </argument>
@@ -168,7 +172,7 @@ if (mlook)
           <argument>
             <kind>1</kind>
             <string>/// Zoom Out
-if (distance &lt; 270)
+if (distance &lt; 270 &amp;&amp; !firstperson)
     distance += 10;
 </string>
           </argument>
@@ -193,7 +197,7 @@ if (distance &lt; 270)
           <argument>
             <kind>1</kind>
             <string>/// Zoom In
-if (distance &gt; 30)
+if (distance &gt; 30 &amp;&amp; !firstperson)
     distance -= 10;
 </string>
           </argument>

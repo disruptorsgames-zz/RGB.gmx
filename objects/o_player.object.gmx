@@ -36,7 +36,7 @@ runspeed = 2.5;
 key_x = 0;
 key_y = 0;
 charge = 0;
-cooldown = 3 * room_speed;
+cooldown = 0;
 name = "Sintel";
 max_hp = 100;
 hp = 100;
@@ -45,8 +45,9 @@ mana = 100;
 spells = ds_map_create();
 shell = c_black;
 invul = false;
+target = noone;
 
-addSpell("invul", 3);
+spells[? "invul"] = setTick(3);
 
 model = d3d_model_create();
 d3d_model_load(model, "Sintel.d3d");
@@ -120,7 +121,7 @@ if (z &gt; 0)
             <string>/// Effects
 
 // invulnerability
-if (getSpell("invul") &gt; 0)
+if (spells[? "invul"] &gt; 0)
 {
     invul = true;
     shell = c_red;
@@ -132,17 +133,17 @@ else
 }
 
 // spells
-if (tick(getSpell("regen")))
+if (tick(spells[? "regen"]))
 {
     emit(10, make_color_rgb(random(155) + 100, 0, 0));
     hp += regen(self, 2);
 }
-else if (tick(getSpell("mana")))
+else if (tick(spells[? "mana"]))
 {
     emit(10, make_color_rgb(0, 0, random(155) + 100));
     mana += regen(self, 2);
 }
-else if (tick(getSpell("poison")))
+else if (tick(spells[? "poison"]))
 {
     gib(32, make_color_rgb(random(55) + 200, 0, 0));
     hp -= damage(self, 2);
@@ -177,18 +178,18 @@ if (point_distance_3d(x, y, z, pickup.x, pickup.y, pickup.z) &lt; 16)
             if (hp &lt; max_hp)
             {
                 pickup.fade = true;
-                addSpell("regen", 5);
+                spells[? "regen"] = setTick(5);
             }
             break;
         case c_green:
             pickup.fade = true;
-            addSpell("poison", 3);
+            spells[? "poison"] = setTick(3);
             break;
         case c_blue:
             if (mana &lt; max_mana)
             {
                 pickup.fade = true;
-                addSpell("mana", 5);
+                spells[? "mana"] = setTick(5);
             }
             break;
         case c_yellow:
@@ -303,13 +304,13 @@ if (!keyboard_check(vk_alt))
           <argument>
             <kind>1</kind>
             <string>/// Attack
-if (mouse_check_button(mb_left))
+if (mouse_check_button(mb_left) &amp;&amp; cooldown == 0)
 {
     //tfacing = cam_d;
     if (charge &lt; 100)
         charge += 1;
 }
-if (mouse_check_button_released(mb_left))
+else if (mouse_check_button_released(mb_left) &amp;&amp; cooldown == 0)
 {
     cooldown = charge;
     charge = 0;
@@ -339,6 +340,9 @@ if (mouse_check_button_released(mb_left))
             <string>/// HUD
 lx = 16;
 rx = view_wview[0] - 34;
+cx = view_wview[0] / 2;
+cy = view_hview[0] / 2;
+bottomY = view_yview[0] + view_hview[0];
 
 d3d_set_lighting(false);
 
@@ -354,12 +358,22 @@ for (var i = 0; i &lt; ds_map_size(spells); i++)
 {
     draw_sprite(getIcon(spell), -1, rx - i * 32, 2);
     value = round(ds_map_find_value(spells, spell) / room_speed);
-    drawText(rx - i * (32 - string_width(value)), 4, string(value) + "s", c_white);
+    drawText(rx - i * center(32, string_width(value)), center(32, string_height(value)), string(value) + "s", c_white);
     spell = ds_map_find_next(spells, spell);
 }
 // retina
 r = sqr(size * 2) / (o_camera.distance / 32);
-draw_circle_color(view_wview[0] / 2, view_hview[0] / 2, r, c_black, c_black, 1);
+draw_circle_color(cx, cy, r, c_black, c_black, 1);
+// cooldown
+drawTextIf(cx - r, cy, charge, c_white, charge &gt; 0);
+drawTextIf(cx + r, cy, cooldown, c_white, cooldown &gt; 0);
+// hotbar 1
+hbSize = ds_list_size(o_world.hotbar1);
+for(var i = 0; i &lt; hbSize; i++)
+{
+    val = ds_list_find_value(o_world.hotbar1, i);
+    draw_sprite(val, -1, cx - (i * 32), bottomY - 36);
+}
 // incoming attack
 /*for (var i = 0; i &lt; ds_list_size(targets); i++)
 {

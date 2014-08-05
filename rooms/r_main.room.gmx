@@ -17,7 +17,7 @@ instance_create(16, 16, o_world);
 instance_create(16, 32, o_items);
 instance_create(16, 48, o_trees);
 
-instance_create(room_width / 2, room_height / 2, o_player);
+spawn(o_player);
 instance_create(room_width / 2, room_height / 2, o_camera);
 
 // todo: make room size 65536 (needs optimization)</code>

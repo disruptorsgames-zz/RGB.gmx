@@ -29,6 +29,7 @@
 display = 0;
 objects = ds_list_create();
 commands = ds_map_create();
+hotbar1 = ds_list_create();
 global.serverlist = ds_list_create();
 global.console = ds_list_create();
 global.typing = false;
@@ -37,15 +38,20 @@ global.typing = false;
 broadcast = network_create_server(network_socket_udp, 6511, 100);
 
 // commands
-ds_map_add(commands, "help", "");
-ds_map_add(commands, "server", ",maxClients");
-ds_map_add(commands, "connect", ",ip:port");
-ds_map_add(commands, "disconnect", "");
+commands[? "help"] =  "";
+commands[? "firstperson"] = "";
+commands[? "special"] = "";
+commands[? "server"] = ",maxClients";
+commands[? "connect"] = ",ip:port";
+commands[? "disconnect"] = "";
 
 // welcome message
 cout("Welcome to RGB.");
 cout("Type /help for a list of commands.");
-cout("Press F2 to toggle console display modes");
+cout("Press F1 to toggle console display modes");
+
+// hotbar
+//ds_list_add(hotbar1, s_nohotbar);
 
 // run in release
 gml_release_mode(!debug_mode);
@@ -81,6 +87,35 @@ for (var i = 0; i &lt; instance_count; i++)
     obj = instance_id[i].object_index;
     if (ds_list_find_index(objects, obj) == -1)
         ds_list_add(objects, obj);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Special Keys
+if (keyboard_check(vk_tab))
+{
+    if(instance_exists(o_player))
+    {
+        var t = instance_nearest(o_player.x, o_player.y, o_thing);
+        o_player.target = t;
+    }
 }
 </string>
           </argument>
@@ -148,7 +183,7 @@ switch (display)
     case 0:
         for (var i = 0; i &lt; ds_list_size(global.console); i++)
         {
-            text = ds_list_find_value(global.console, i);
+            var text = ds_list_find_value(global.console, i);
             drawTextExt(16, 64 + (i * 16), text, c_white, 0.75, f_hud, fa_left);
         }
         break;
@@ -156,7 +191,7 @@ switch (display)
     case 1:
         for (var i = 0; i &lt; ds_list_size(objects); i++)
         {
-            obj = ds_list_find_value(objects, i);
+            obj = objects[| i];
             t = instance_nearest(o_player.x, o_player.y, obj);
             drawTextExt(16, 64 + (i * 16), object_get_name(obj) + ":" + string(t), c_white, 0.75, f_hud, fa_left);
         }
@@ -165,7 +200,7 @@ switch (display)
     case 2:
         for (var i = 0; i &lt; ds_list_size(global.serverlist); i++)
         {
-            text = ds_list_find_value(global.serverlist, i);
+            text = global.serverlist[| i];
             drawTextExt(16, 64 + (i * 16), string(text), c_white, 0.75, f_hud, fa_left);
         }
         break;
@@ -246,7 +281,7 @@ d3d_transform_stack_pop();*/
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="113">
+    <event eventtype="9" enumb="112">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -367,19 +402,39 @@ if (global.typing)
                 key = ds_map_find_next(commands, key);
             }
             break;
+        case "firstperson":
+            with (o_camera)
+            {
+                firstperson = !firstperson;
+                cout(ternary(firstperson, "First person mode", "Chasecam mode"));
+                tilt = ternary(firstperson, 0, 30);
+                zoffset = ternary(firstperson, 25, 14);
+                distance = ternary(firstperson, 1, 60);
+            }
+            break;
         case "server":
             var server = instance_create(0, 0, o_server);
-            server.max_clients = round(real(args[1]));
+            if (instance_exists(server))
+                server.max_clients = round(real(args[1]));
             cout("Server created with " + string(server.max_clients) + " max clients");
             break;
         case "connect":
             var client = instance_create(0, 0, o_client);
-            client.host = split(args[1], ":");
+            if (instance_exists(client))
+                client.host = split(args[1], ":");
             break;
         case "disconnect":
             if (instance_exists(o_client))
-                o_client.disconnect = true;
-            disconnect = true;
+                with(o_client) { instance_destroy(); }
+            if (instance_exists(o_server))
+                with(o_server) { instance_destroy(); }
+            break;
+        case "special":
+            cout("Special Thanks to,");
+            cout("YellowAfterlife for 3D Camera example");
+            cout("Ben Dansie for Sintel model");
+            cout("SebastL for Chest model");
+            cout("Explosive James for Tree model");
             break;
         case "invalid":
         case "misuse":
