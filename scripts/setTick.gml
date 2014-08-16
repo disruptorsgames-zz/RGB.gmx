@@ -1,2 +1,2 @@
 ///setTick(time)
-return argument0 * room_speed;
+return argument0 * GAME_TICK;

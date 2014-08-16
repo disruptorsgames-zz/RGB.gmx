@@ -41,8 +41,14 @@ firstperson = false;
 rotspeed_x = -0.95;
 rotspeed_y = 0.95;
 
+// full screen stuff
+window_set_fullscreen(true);
+view_wview[0] = display_get_width();
+view_hview[0] = display_get_height();
+display_reset(8, false);
+
 // mouse stuff
-window_mouse_set(window_get_width() / 2, window_get_height() / 2);
+window_mouse_set(view_wview[0] / 2, view_hview[0] / 2);
 mlook = true;
 //window_set_cursor(cr_none);
 //cursor_sprite = s_spawn;
@@ -149,6 +155,8 @@ if (mlook)
     tilt = max(5, min(89, tilt));
     window_mouse_set(window_get_width() / 2, window_get_height() / 2);
 }
+
+window_set_cursor(ternary(mlook, cr_none, cr_default));
 </string>
           </argument>
         </arguments>
@@ -199,6 +207,35 @@ if (distance &lt; 270 &amp;&amp; !firstperson)
             <string>/// Zoom In
 if (distance &gt; 30 &amp;&amp; !firstperson)
     distance -= 10;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// D3D
+d3d_set_lighting(false);
+
+var resolution = string(view_wview[0]) + "x" + string(view_hview[0]);
+drawText(center(view_wview[0], string_width(resolution)), 16, resolution, c_orange);
+
+d3d_set_lighting(true);
 </string>
           </argument>
         </arguments>

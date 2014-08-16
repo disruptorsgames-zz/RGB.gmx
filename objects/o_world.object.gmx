@@ -29,7 +29,6 @@
 display = 0;
 objects = ds_list_create();
 commands = ds_map_create();
-hotbar1 = ds_list_create();
 global.serverlist = ds_list_create();
 global.console = ds_list_create();
 global.typing = false;
@@ -39,6 +38,7 @@ broadcast = network_create_server(network_socket_udp, 6511, 100);
 
 // commands
 commands[? "help"] =  "";
+commands[? "clear"] = "";
 commands[? "firstperson"] = "";
 commands[? "special"] = "";
 commands[? "server"] = ",maxClients";
@@ -49,9 +49,6 @@ commands[? "disconnect"] = "";
 cout("Welcome to RGB.");
 cout("Type /help for a list of commands.");
 cout("Press F1 to toggle console display modes");
-
-// hotbar
-//ds_list_add(hotbar1, s_nohotbar);
 
 // run in release
 gml_release_mode(!debug_mode);
@@ -84,38 +81,9 @@ for (var i = 0; i &lt; instance_count; i++)
     if (!instance_exists(instance_id[i]))
         continue;
 
-    obj = instance_id[i].object_index;
+    var obj = instance_id[i].object_index;
     if (ds_list_find_index(objects, obj) == -1)
         ds_list_add(objects, obj);
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Special Keys
-if (keyboard_check(vk_tab))
-{
-    if(instance_exists(o_player))
-    {
-        var t = instance_nearest(o_player.x, o_player.y, o_thing);
-        o_player.target = t;
-    }
 }
 </string>
           </argument>
@@ -181,11 +149,15 @@ switch (display)
 {
     // console
     case 0:
+        var lines = floor(view_hview[0] / 16) - 6;
         for (var i = 0; i &lt; ds_list_size(global.console); i++)
-        {
-            var text = ds_list_find_value(global.console, i);
-            drawTextExt(16, 64 + (i * 16), text, c_white, 0.75, f_hud, fa_left);
+        {                
+            var text = global.console[| i];
+            var yy = 64 + (i mod lines * 16);
+            drawText(14, yy, i, c_black);
+            drawTextExt(32, yy, text, c_white, 0.75, f_hud, fa_left);
         }
+        drawText(16, 50, string(ds_list_size(global.console)) + "/" + string(lines), c_orange);
         break;
     // objects
     case 1:
@@ -210,6 +182,7 @@ if (global.typing)
 {
     input = ternary(global.typing, keyboard_string + "|", keyboard_string);
     drawTextExt(16, view_hview[0] - 32, input, c_white, 0.75, f_hud, fa_left);
+    drawTextExt(16, view_hview[0] - 16, parse(keyboard_string), c_orange, 0.5, f_hud, fa_left);
 }
 
 d3d_set_lighting(true);
@@ -243,39 +216,6 @@ d3d_draw_floor(0, room_height, 0, room_width, 0, 0, background_get_texture(b_gro
 shader_reset();
 
 d3d_transform_stack_pop();
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// D3D Walls
-/*d3d_transform_stack_push();
-
-draw_set_color(c_white);
-tex = background_get_texture(b_wall);
-celShading();
-d3d_draw_wall(0, room_height, 0, room_width, room_height, 32, tex, room_width / 16, 2);
-d3d_draw_wall(room_width, room_height, 0, room_width, 0, 32, tex, room_width / 16, 2);
-d3d_draw_wall(0, 0, 0, 0, room_height, 32, tex, room_width / 16, 2);
-d3d_draw_wall(room_width, 0, 0, 0, 0, 32, tex, room_width / 16, 2);
-shader_reset();
-
-d3d_transform_stack_pop();*/
 </string>
           </argument>
         </arguments>
@@ -389,7 +329,7 @@ else
             <string>/// Console Input
 if (global.typing)
 {
-    var cmd = parse(keyboard_string);
+    var cmd = getCommand(keyboard_string);
     switch (cmd)
     {
         case "help":
@@ -404,7 +344,7 @@ if (global.typing)
             break;
         case "firstperson":
             with (o_camera)
-            {
+            {            
                 firstperson = !firstperson;
                 cout(ternary(firstperson, "First person mode", "Chasecam mode"));
                 tilt = ternary(firstperson, 0, 30);
@@ -438,11 +378,14 @@ if (global.typing)
             break;
         case "invalid":
         case "misuse":
-            // these are handled in parse
+            // these are handled in getCommand
+            break;
+        case "clear":
+            ds_list_clear(global.console);
             break;
         case "say":
             if (!isEmpty(keyboard_string))
-                cout(o_player.name + ": " + keyboard_string);
+                cout(o_player.name + ": " + vars(keyboard_string));
             break;
     }
 

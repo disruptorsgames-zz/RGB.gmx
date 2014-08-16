@@ -26,10 +26,12 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
+rot_z = random(360);
+size = random(10) + 10;
+color = make_color_rgb(100, 75, 50);
+attack_dir = round(random(360));
 z = 0;
 
-facing = random(360);
-size = random(10) + 10;
 trunk = d3d_model_create();
 d3d_model_load(trunk, "Tree.d3d");
 leaves = d3d_model_create();
@@ -60,7 +62,7 @@ d3d_model_load(leaves, "Leaves.d3d");
 d3d_transform_stack_push();
 
 // position
-d3d_transform_set_rotation_z(facing);
+d3d_transform_set_rotation_z(rot_z);
 d3d_transform_add_scaling(size, size, size);
 d3d_transform_add_translation(x, y, z);
 // draw
@@ -70,6 +72,28 @@ d3d_model_draw(leaves, 0, 0, 0, background_get_texture(b_leaves));
 shader_reset();
 
 d3d_transform_stack_pop();
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Target
+drawTarget();
 </string>
           </argument>
         </arguments>

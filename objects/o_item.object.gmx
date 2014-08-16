@@ -27,9 +27,9 @@
             <kind>1</kind>
             <string>/// Initialize
 scale = 5 + random(5);
-zsize = 8;
+size = 8;
 rot_x = 270;
-rot_y = 90;
+rot_y = random(360);
 rot_z = 0;
 fade = false;
 color = c_white;
@@ -104,7 +104,7 @@ d3d_transform_add_rotation_x(rot_x + 180);
 d3d_transform_add_rotation_z(rot_y);
 d3d_transform_add_rotation_y(rot_z);
 d3d_transform_add_scaling(scale, scale, scale);
-d3d_transform_add_translation(x, y, z + 1);
+d3d_transform_add_translation(x, y, z + 1 * (scale / 5));
 // drawing
 //d3d_set_lighting(false);
 celShading();
@@ -138,9 +138,8 @@ d3d_transform_stack_pop();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Target
-if (instance_exists(o_player) &amp;&amp; o_player.target == id)
-    draw_rectangle_color(x - zsize, y - zsize, x + zsize, y + zsize, c_black, c_black, c_black, c_black, true);
+            <string>///Target
+drawTarget();
 </string>
           </argument>
         </arguments>

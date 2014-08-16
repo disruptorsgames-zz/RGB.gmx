@@ -142,6 +142,10 @@
       </sprites>
       <sprites name="Hotbar">
         <sprite>sprites\s_nohotbar</sprite>
+        <sprite>sprites\s_hand</sprite>
+        <sprite>sprites\s_hotbar_mana</sprite>
+        <sprite>sprites\s_hotbar_health</sprite>
+        <sprite>sprites\s_hotbar_poison</sprite>
       </sprites>
     </sprites>
     <sprites name="World">
@@ -175,19 +179,24 @@
       <script>scripts\center.gml</script>
       <script>scripts\cycle.gml</script>
       <script>scripts\damage.gml</script>
-      <script>scripts\regen.gml</script>
+      <script>scripts\heal.gml</script>
       <script>scripts\setTick.gml</script>
       <script>scripts\spawn.gml</script>
       <script>scripts\tick.gml</script>
     </scripts>
     <scripts name="console">
       <script>scripts\cout.gml</script>
+      <script>scripts\getCommand.gml</script>
       <script>scripts\isEmpty.gml</script>
+      <script>scripts\join.gml</script>
       <script>scripts\parse.gml</script>
       <script>scripts\split.gml</script>
+      <script>scripts\toChar.gml</script>
+      <script>scripts\vars.gml</script>
     </scripts>
     <scripts name="draw">
       <script>scripts\drawBlock.gml</script>
+      <script>scripts\drawTarget.gml</script>
       <script>scripts\drawText.gml</script>
       <script>scripts\drawTextExt.gml</script>
       <script>scripts\drawTextIf.gml</script>
@@ -214,6 +223,7 @@
   </shaders>
   <fonts name="fonts">
     <font>fonts\f_hud</font>
+    <font>fonts\f_hud_l</font>
   </fonts>
   <objects name="objects">
     <objects name="Effects">
@@ -247,9 +257,10 @@
   <rooms name="rooms">
     <room>rooms\r_main</room>
   </rooms>
-  <constants number="2">
-    <constant name="GM_build_date">41856.1011032407</constant>
-    <constant name="GM_version">'1.0.0.0'</constant>
+  <constants number="3">
+    <constant name="GAME_TICK">60</constant>
+    <constant name="GM_build_date">41867.2876369329</constant>
+    <constant name="GM_version">'1'</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

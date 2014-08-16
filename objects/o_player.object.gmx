@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>/// Initialize
 z = 0;
-size = 8;
+size = 11; // 8 (windowed)
 facing = 0;
 tfacing = 0;
 zspeed = 0;
@@ -38,17 +38,27 @@ key_y = 0;
 charge = 0;
 cooldown = 0;
 name = "Sintel";
-max_hp = 100;
-hp = 100;
+max_health = 200;
+health = 100;
 max_mana = 100;
-mana = 100;
-spells = ds_map_create();
+mana = 0;
 shell = c_black;
 invul = false;
+next = 0;
 target = noone;
+targets = ds_map_create();
 
+// spells
+spells = ds_map_create();
 spells[? "invul"] = setTick(3);
 
+// hotbar
+hotbar1 = ds_list_create();
+ds_list_add(hotbar1, s_hotbar_mana);
+ds_list_add(hotbar1, s_hotbar_health);
+ds_list_add(hotbar1, s_hotbar_poison);
+
+// model
 model = d3d_model_create();
 d3d_model_load(model, "Sintel.d3d");
 hair = d3d_model_create();
@@ -129,24 +139,27 @@ if (spells[? "invul"] &gt; 0)
 else
 {
     invul = false;
-    shell = c_white;/*c_black;*/
+    shell = c_white;
 }
 
 // spells
 if (tick(spells[? "regen"]))
 {
-    emit(10, make_color_rgb(random(155) + 100, 0, 0));
-    hp += regen(self, 2);
+    //emit(10, make_color_rgb(random(155) + 100, 0, 0));
+    cout(name + " reguvinated 5 health!");
+    health += ternary(health &gt;= max_health, 0, heal(self, 5));
 }
 else if (tick(spells[? "mana"]))
 {
-    emit(10, make_color_rgb(0, 0, random(155) + 100));
-    mana += regen(self, 2);
+    //emit(10, make_color_rgb(0, 0, random(155) + 100));
+    cout(name + " reguvinated 5 mana!");
+    mana += ternary(mana &gt;= max_mana, 0, heal(self, 5));
 }
 else if (tick(spells[? "poison"]))
 {
-    gib(32, make_color_rgb(random(55) + 200, 0, 0));
-    hp -= damage(self, 2);
+    //gib(32, make_color_rgb(random(55) + 200, 0, 0));
+    cout(name + " was poisoned for 5 damage!");
+    health -= damage(self, 5);
 }
 </string>
           </argument>
@@ -175,26 +188,28 @@ if (point_distance_3d(x, y, z, pickup.x, pickup.y, pickup.z) &lt; 16)
     switch(pickup.color)
     {
         case c_red:
-            if (hp &lt; max_hp)
+            if (health &lt; max_health &amp;&amp; !pickup.fade)
             {
                 pickup.fade = true;
-                spells[? "regen"] = setTick(5);
+                health += heal(self, 10);
             }
             break;
         case c_green:
-            pickup.fade = true;
-            spells[? "poison"] = setTick(3);
-            break;
-        case c_blue:
-            if (mana &lt; max_mana)
+            if (!pickup.fade)
             {
                 pickup.fade = true;
-                spells[? "mana"] = setTick(5);
+                health -= damage(self, 10);
             }
             break;
-        case c_yellow:
+        case c_blue:
+            if (mana &lt; max_mana &amp;&amp; !pickup.fade)
+            {
+                pickup.fade = true;
+                mana += heal(self, 10);   
+            }
             break;
     }
+    target = noone;
 }
 </string>
           </argument>
@@ -319,6 +334,85 @@ else if (mouse_check_button_released(mb_left) &amp;&amp; cooldown == 0)
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Targeting
+if (keyboard_check_pressed(vk_tab))
+{
+    // re-calculate targets
+    ds_list_clear(targets);
+    for (var i = 0; i &lt; instance_count; i++)
+    {
+        var instance = instance_id[i], obj = instance.object_index;
+        
+        if (!instance_exists(instance) || object_get_parent(obj) != o_thing)
+            continue;
+        
+        if (distance_to_object(instance) &lt; 100)
+            ds_list_add(targets, instance);
+    }
+    
+    // loop next
+    var len = ds_list_size(targets);
+    if (next &gt;= len)
+        next = 0;
+    // move to next
+    target = targets[| next];
+    next++;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Hotbar
+if (keyboard_check(ord('1')))
+{
+    var sprite = sprite_get_name(hotbar1[| 1]);
+    switch(sprite)
+    {
+        case "s_hotbar_health":
+            if (mana &gt;= 50)
+            {
+                mana -= heal(self, 50);
+                spells[? "regen"] = tick(5);
+            }
+            break;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -338,7 +432,7 @@ else if (mouse_check_button_released(mb_left) &amp;&amp; cooldown == 0)
           <argument>
             <kind>1</kind>
             <string>/// HUD
-lx = 16;
+offset = 16;
 rx = view_wview[0] - 34;
 cx = view_wview[0] / 2;
 cy = view_hview[0] / 2;
@@ -347,44 +441,57 @@ bottomY = view_yview[0] + view_hview[0];
 d3d_set_lighting(false);
 
 // health
-draw_healthbar(lx, lx, lx + 256, lx + 16, (hp / max_hp) * 100, c_white, c_maroon, c_red, 0, false, true);
-drawText(lx, lx, hp, c_white);
+draw_healthbar(offset, offset, offset + 256, offset + 16, (health / 100) * 100, c_white, c_maroon, c_red, 0, false, true);
+drawText(offset, offset, health, c_white);
+/* overheal
+if (health &gt; 100)
+{
+    ox = offset + 257;
+    draw_triangle_colour(ox - (health - 100), offset, ox, offset, ox, offset + 17, c_maroon, c_maroon, c_maroon, false); 
+}*/
 // mana
-draw_healthbar(lx, lx + 20, lx + 256, lx + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
-drawText(lx, lx + 20, mana, c_white);
+draw_healthbar(offset, offset + 20, offset + 256, offset + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
+drawText(offset, offset + 20, mana, c_white);
+// hotbar 1
+for(var i = 0; i &lt; ds_list_size(hotbar1); i++)
+{
+    var value = hotbar1[| i];
+    var xx = cx - i * (sprite_get_width(value) + 4);
+    var yy = bottomY - (sprite_get_height(value) + 4);
+    draw_sprite(value, -1, xx, yy);
+    drawText(xx, yy, i, c_white);
+    draw_rectangle_color(xx, yy, xx + sprite_get_width(value), yy + sprite_get_height(value), c_black, c_black, c_black, c_black, true);
+}
 // spell bar
 spell = ds_map_find_first(spells);
 for (var i = 0; i &lt; ds_map_size(spells); i++)
 {
-    draw_sprite(getIcon(spell), -1, rx - i * 32, 2);
-    value = round(ds_map_find_value(spells, spell) / room_speed);
-    drawText(rx - i * center(32, string_width(value)), center(32, string_height(value)), string(value) + "s", c_white);
+    var value = round(spells[? spell] / GAME_TICK);
+    draw_sprite(getIcon(spell), -1, rx - (i * 32), 2);
+    drawText(rx - (i * 32) + 12, 8, value, c_white);
     spell = ds_map_find_next(spells, spell);
 }
 // retina
 r = sqr(size * 2) / (o_camera.distance / 32);
 draw_circle_color(cx, cy, r, c_black, c_black, 1);
 // cooldown
-drawTextIf(cx - r, cy, charge, c_white, charge &gt; 0);
-drawTextIf(cx + r, cy, cooldown, c_white, cooldown &gt; 0);
-// hotbar 1
-hbSize = ds_list_size(o_world.hotbar1);
-for(var i = 0; i &lt; hbSize; i++)
+drawTextIf(cx - r + 32, cy, charge, c_white, charge &gt; 0);
+drawTextIf(cx + r - 32, cy, cooldown, c_white, cooldown &gt; 0);
+// incoming attack &amp; targets
+for (var i = 0; i &lt; ds_list_size(targets); i++)
 {
-    val = ds_list_find_value(o_world.hotbar1, i);
-    draw_sprite(val, -1, cx - (i * 32), bottomY - 36);
-}
-// incoming attack
-/*for (var i = 0; i &lt; ds_list_size(targets); i++)
-{
-    t = ds_list_find_value(targets, i);
+    var ax, ay, tn, t;
+    t = targets[| i];
     if (instance_exists(t))
     {
+        tn = object_get_name(t.object_index);
         ax = lengthdir_x(r, t.attack_dir);
         ay = lengthdir_y(r, t.attack_dir);
-        draw_circle_color(view_wview[0] / 2 + ax, view_hview[0] / 2 + ay, r / 8, t.color, t.color, false);
+        draw_circle_color(cx + ax, cy + ay, r / 8, t.color, t.color, false);
+        drawTextExt(cx + ax - 5, cy + ay - 10, string_upper(string_char_at(tn, 3)), ternary(target == t, c_black, c_white), 1.0, f_hud_l, fa_left);
+        drawTextExt(cx - r * 2, cy + i * 16, tn + ":" + string(t), ternary(target == t, c_black, c_red), 0.5, f_hud_l, fa_right);
     }
-}*/
+}
     
 d3d_set_lighting(true);
 </string>

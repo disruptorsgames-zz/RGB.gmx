@@ -26,10 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>/// Spawn Items
+randomize();
 repeat (round(random(room_width / 4)))
 {
     item = spawn(o_item);
-    item.color = choose(c_red, c_green, c_blue, c_yellow);
+    item.color = choose(c_red, c_green, c_blue);
 }
 </string>
           </argument>
