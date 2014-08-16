@@ -45,6 +45,7 @@ mana = 0;
 shell = c_black;
 invul = false;
 next = 0;
+target_area = 50;
 target = noone;
 targets = ds_map_create();
 
@@ -351,28 +352,33 @@ else if (mouse_check_button_released(mb_left) &amp;&amp; cooldown == 0)
           <argument>
             <kind>1</kind>
             <string>/// Targeting
-if (keyboard_check_pressed(vk_tab))
+ds_list_clear(targets);
+for (var i = 0; i &lt; instance_count; i++)
 {
-    // re-calculate targets
-    ds_list_clear(targets);
-    for (var i = 0; i &lt; instance_count; i++)
-    {
-        var instance = instance_id[i], obj = instance.object_index;
-        
-        if (!instance_exists(instance) || object_get_parent(obj) != o_thing)
-            continue;
-        
-        if (distance_to_object(instance) &lt; 100)
-            ds_list_add(targets, instance);
-    }
+    var instance = instance_id[i], obj = instance.object_index;
     
+    if (!instance_exists(instance) || object_get_parent(obj) != o_thing)
+        continue;
+    
+    if (distance_to_object(instance) &lt; target_area)
+        ds_list_add(targets, instance);
+}
+
+if (keyboard_check_pressed(vk_tab))
+{    
     // loop next
     var len = ds_list_size(targets);
     if (next &gt;= len)
         next = 0;
     // move to next
-    target = targets[| next];
-    next++;
+    var nearest = instance_nearest(x, y, o_thing);
+    if (target != nearest &amp;&amp; distance_to_object(nearest) &lt; target_area)
+        target = nearest;
+    else
+    {
+        target = targets[| next];
+        next++;
+    }
 }
 </string>
           </argument>
@@ -404,7 +410,7 @@ if (keyboard_check(ord('1')))
             if (mana &gt;= 50)
             {
                 mana -= heal(self, 50);
-                spells[? "regen"] = tick(5);
+                spells[? "regen"] = setTick(5);
             }
             break;
     }
@@ -535,6 +541,32 @@ draw_set_color(c_white);
 shader_reset();
 
 d3d_transform_stack_pop();
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Target Area
+d3d_set_lighting(false);
+
+draw_rectangle_color(x - target_area, y - target_area, x + target_area, y + target_area, c_black, c_black, c_black, c_black, true);
+
+d3d_set_lighting(true);
 </string>
           </argument>
         </arguments>

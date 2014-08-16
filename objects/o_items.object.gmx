@@ -29,8 +29,7 @@
 randomize();
 repeat (round(random(room_width / 4)))
 {
-    item = spawn(o_item);
-    item.color = choose(c_red, c_green, c_blue);
+    spawn(o_item);
 }
 </string>
           </argument>
