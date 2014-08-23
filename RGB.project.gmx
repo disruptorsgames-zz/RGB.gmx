@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="40" name="datafiles">
+  <datafiles number="52" name="datafiles">
     <datafile>
       <name>Chest.d3d</name>
       <exists>-1</exists>
@@ -39,74 +39,6 @@
       <filename>Leaves.d3d</filename>
     </datafile>
     <datafile>
-      <name>Sintel.d3d</name>
-      <exists>-1</exists>
-      <size>939912</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Sintel.d3d</filename>
-    </datafile>
-    <datafile>
-      <name>Sintel_Eyes.d3d</name>
-      <exists>-1</exists>
-      <size>70154</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Sintel_Eyes.d3d</filename>
-    </datafile>
-    <datafile>
-      <name>Sintel_Hair.d3d</name>
-      <exists>-1</exists>
-      <size>62824</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Sintel_Hair.d3d</filename>
-    </datafile>
-    <datafile>
-      <name>Sintel_Staff.d3d</name>
-      <exists>-1</exists>
-      <size>71802</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Sintel_Staff.d3d</filename>
-    </datafile>
-    <datafile>
       <name>Tree.d3d</name>
       <exists>-1</exists>
       <size>76092</size>
@@ -123,6 +55,161 @@
       </ConfigOptions>
       <filename>Tree.d3d</filename>
     </datafile>
+    <datafiles number="52" name="Sintel">
+      <datafile>
+        <name>Sintel.d3d</name>
+        <exists>-1</exists>
+        <size>939912</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Boots.d3d</name>
+        <exists>-1</exists>
+        <size>217371</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Boots.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Eyes.d3d</name>
+        <exists>-1</exists>
+        <size>70154</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Eyes.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Gloves.d3d</name>
+        <exists>-1</exists>
+        <size>1220774</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Gloves.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Hair.d3d</name>
+        <exists>-1</exists>
+        <size>62824</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Hair.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Hair1.d3d</name>
+        <exists>-1</exists>
+        <size>311630</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Hair1.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Mouth.d3d</name>
+        <exists>-1</exists>
+        <size>931458</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Mouth.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Pants.d3d</name>
+        <exists>-1</exists>
+        <size>1531527</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Pants.d3d</filename>
+      </datafile>
+      <datafile>
+        <name>Sintel_Shirt.d3d</name>
+        <exists>-1</exists>
+        <size>822498</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>Sintel_Shirt.d3d</filename>
+      </datafile>
+    </datafiles>
   </datafiles>
   <NewExtensions/>
   <sounds name="sound"/>
@@ -159,9 +246,14 @@
     <background>background\b_celshading</background>
     <background>background\b_default</background>
     <backgrounds name="Player">
-      <background>background\b_player</background>
-      <background>background\b_hair</background>
+      <background>background\b_boots</background>
       <background>background\b_eye</background>
+      <background>background\b_gloves</background>
+      <background>background\b_hair</background>
+      <background>background\b_mouth</background>
+      <background>background\b_pants</background>
+      <background>background\b_shirt</background>
+      <background>background\b_skin</background>
     </backgrounds>
     <backgrounds name="World">
       <background>background\b_moon</background>
@@ -221,6 +313,7 @@
   <shaders name="shaders">
     <shader type="GLSLES">shaders\vfx_celshading.shader</shader>
     <shader type="GLSLES">shaders\vfx_diffuse_textured.shader</shader>
+    <shader type="GLSLES">shaders\vfx_blend.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\f_hud</font>
@@ -261,7 +354,11 @@
   </rooms>
   <constants number="3">
     <constant name="GAME_TICK">60</constant>
+<<<<<<< HEAD
     <constant name="GM_build_date">41874.2752887384</constant>
+=======
+    <constant name="GM_build_date">41869.0476662037</constant>
+>>>>>>> c56adf5cb2feca2beba64897996b8b98bc64326d
     <constant name="GM_version">'1'</constant>
   </constants>
   <help>
