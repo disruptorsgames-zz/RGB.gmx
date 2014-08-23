@@ -45,7 +45,7 @@ rotspeed_y = 0.95;
 window_set_fullscreen(true);
 view_wview[0] = display_get_width();
 view_hview[0] = display_get_height();
-display_reset(8, false);
+display_reset(0, false);
 
 // mouse stuff
 window_mouse_set(view_wview[0] / 2, view_hview[0] / 2);

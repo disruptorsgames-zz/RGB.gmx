@@ -261,7 +261,7 @@
   </rooms>
   <constants number="3">
     <constant name="GAME_TICK">60</constant>
-    <constant name="GM_build_date">41867.3248955787</constant>
+    <constant name="GM_build_date">41874.2752887384</constant>
     <constant name="GM_version">'1'</constant>
   </constants>
   <help>
