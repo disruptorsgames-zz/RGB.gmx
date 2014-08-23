@@ -3,7 +3,7 @@
   <spriteName>s_player</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -61,11 +61,23 @@ ds_list_add(hotbar1, s_hotbar_poison);
 
 // model
 model = d3d_model_create();
-d3d_model_load(model, "Sintel.d3d");
+d3d_model_load(model, ".\Sintel\Sintel.d3d");
 hair = d3d_model_create();
-d3d_model_load(hair, "Sintel_Hair.d3d");
+d3d_model_load(hair, ".\Sintel\Sintel_Hair.d3d");
+hair1 = d3d_model_create();
+d3d_model_load(hair1, ".\Sintel\Sintel_Hair1.d3d");
 eyes = d3d_model_create();
-d3d_model_load(eyes, "Sintel_Eyes.d3d");
+d3d_model_load(eyes, ".\Sintel\Sintel_Eyes.d3d");
+mouth = d3d_model_create();
+d3d_model_load(mouth, ".\Sintel\Sintel_Mouth.d3d");
+pants = d3d_model_create();
+d3d_model_load(pants, ".\Sintel\Sintel_Pants.d3d");
+shirt = d3d_model_create();
+d3d_model_load(shirt, ".\Sintel\Sintel_Shirt.d3d");
+boots = d3d_model_create();
+d3d_model_load(boots, ".\Sintel\Sintel_Boots.d3d");
+gloves = d3d_model_create();
+d3d_model_load(gloves, ".\Sintel\Sintel_Gloves.d3d");
 </string>
           </argument>
         </arguments>
@@ -534,9 +546,15 @@ d3d_transform_add_translation(x, y, z + 1);
 celShading();
 //drawBlock(c_white, size, background_get_texture(b_player), shell);
 draw_set_color(shell);
-d3d_model_draw(model, 0, 0, 0, background_get_texture(b_player));
-d3d_model_draw(hair, 0, 0, 0, background_get_texture(b_hair));
+d3d_model_draw(model, 0, 0, 0, background_get_texture(b_skin));
 d3d_model_draw(eyes, 0, 0, 0, background_get_texture(b_eye));
+d3d_model_draw(mouth, 0, 0, 0, background_get_texture(b_mouth));
+d3d_model_draw(hair, 0, 0, 0, background_get_texture(b_hair));
+d3d_model_draw(hair1, 0, 0, 0, background_get_texture(b_hair));
+d3d_model_draw(pants, 0, 0, 0, background_get_texture(b_pants));
+d3d_model_draw(shirt, 0, 0, 0, background_get_texture(b_shirt));
+d3d_model_draw(boots, 0, 0, 0, background_get_texture(b_boots));
+d3d_model_draw(gloves, 0, 0, 0, background_get_texture(b_gloves));
 draw_set_color(c_white);
 shader_reset();
 
