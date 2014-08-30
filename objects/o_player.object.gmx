@@ -470,16 +470,6 @@ if (health &gt; 100)
 // mana
 draw_healthbar(offset, offset + 20, offset + 256, offset + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
 drawText(offset, offset + 20, mana, c_white);
-// hotbar 1
-for(var i = 0; i &lt; ds_list_size(hotbar1); i++)
-{
-    var value = hotbar1[| i];
-    var xx = cx - i * (sprite_get_width(value) + 4);
-    var yy = bottomY - (sprite_get_height(value) + 4);
-    draw_sprite(value, -1, xx, yy);
-    drawText(xx, yy, i, c_white);
-    draw_rectangle_color(xx, yy, xx + sprite_get_width(value), yy + sprite_get_height(value), c_black, c_black, c_black, c_black, true);
-}
 // spell bar
 spell = ds_map_find_first(spells);
 for (var i = 0; i &lt; ds_map_size(spells); i++)
@@ -509,6 +499,16 @@ for (var i = 0; i &lt; ds_list_size(targets); i++)
         drawTextExt(cx + ax - 5, cy + ay - 10, string_upper(string_char_at(tn, 3)), ternary(target == t, c_black, c_white), 1.0, f_hud_l, fa_left);
         drawTextExt(cx - r * 2, cy + i * 16, tn + ":" + string(t), ternary(target == t, c_black, c_red), 0.5, f_hud_l, fa_right);
     }
+}
+// hotbar 1 - draw hotbar last
+for(var i = 0; i &lt; ds_list_size(hotbar1); i++)
+{
+    var value = hotbar1[| i];
+    var xx = cx - i * (sprite_get_width(value) + 4);
+    var yy = bottomY - (sprite_get_height(value) + 4);
+    draw_sprite(value, -1, xx, yy);
+    drawText(xx, yy, i, c_white);
+    draw_rectangle_color(xx, yy, xx + sprite_get_width(value), yy + sprite_get_height(value), c_black, c_black, c_black, c_black, true);
 }
     
 d3d_set_lighting(true);
