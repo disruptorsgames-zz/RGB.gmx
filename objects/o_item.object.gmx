@@ -26,16 +26,13 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
-scale = 5 + random(5);
-size = 8;
-rot_x = 270;
-rot_y = random(360);
-rot_z = 0;
+width = round(random(4)) + 4;
+rot_z = random(360);
 fade = false;
 color = choose(c_red, c_green, c_blue);;
 alpha = 0;
 attack_dir = round(random(360));
-z = 1;
+z = 0;
 
 model = d3d_model_create();
 d3d_model_load(model, "Chest.d3d");
@@ -70,8 +67,8 @@ if (alpha &lt; 1.0)
 // fade out
 if (fade) 
 {
-    scale -= 0.2;
-    if (scale &lt;= 0)
+    width -= 0.2;
+    if (width &lt;= 0)
         instance_destroy();
 }
 </string>
@@ -100,11 +97,9 @@ if (fade)
 d3d_transform_stack_push();
 
 // positioning
-d3d_transform_add_rotation_x(rot_x + 180);
-d3d_transform_add_rotation_z(rot_y);
-d3d_transform_add_rotation_y(rot_z);
-d3d_transform_add_scaling(scale, scale, scale);
-d3d_transform_add_translation(x, y, z + 1 * (scale / 5));
+d3d_transform_add_rotation_z(rot_z);
+d3d_transform_add_scaling(width, width, width);
+d3d_transform_add_translation(x, y, z);
 // drawing
 //d3d_set_lighting(false);
 celShading();

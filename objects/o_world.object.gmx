@@ -262,9 +262,10 @@ display = ternary(display &gt; 1, 0, display + 1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Restart
+            <string>/// Regenerate World!
 if (!global.typing)
-    game_restart();
+{
+}
 </string>
           </argument>
         </arguments>
