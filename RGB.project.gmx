@@ -357,7 +357,11 @@
     <constant name="C_ERROR">c_red</constant>
     <constant name="C_SYSTEM">c_ltgray</constant>
     <constant name="GAME_TICK">60</constant>
+<<<<<<< HEAD
     <constant name="GM_build_date">41913.8288751505</constant>
+=======
+    <constant name="GM_build_date">41881.0358577662</constant>
+>>>>>>> 42a25645766b02028e0baf35d33222cd4f7c75af
     <constant name="GM_version">'1'</constant>
   </constants>
   <help>

@@ -152,7 +152,7 @@ if (mlook)
     pan += (window_mouse_get_x() - window_get_width() / 2) * rotspeed_x;
     global.camera_d = pan;
     tilt += (window_mouse_get_y() - window_get_height() / 2) * rotspeed_y;
-    tilt = max(5, min(89, tilt));
+    tilt = max(0, min(89, tilt));
     window_mouse_set(window_get_width() / 2, window_get_height() / 2);
 }
 

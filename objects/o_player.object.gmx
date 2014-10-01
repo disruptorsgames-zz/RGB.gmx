@@ -212,7 +212,7 @@ if (point_distance_3d(x, y, z, pickup.x, pickup.y, pickup.z) &lt; 16)
             if (!pickup.fade)
             {
                 pickup.fade = true;
-                health -= damage(self, 10);
+                health -= damage(self, pickup.width);
             }
             break;
         case c_blue:
