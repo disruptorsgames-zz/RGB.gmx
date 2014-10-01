@@ -352,13 +352,12 @@
     <room>rooms\r_main</room>
     <room>rooms\r_level01</room>
   </rooms>
-  <constants number="3">
+  <constants number="6">
+    <constant name="C_NAME">c_lime</constant>
+    <constant name="C_ERROR">c_red</constant>
+    <constant name="C_SYSTEM">c_ltgray</constant>
     <constant name="GAME_TICK">60</constant>
-<<<<<<< HEAD
-    <constant name="GM_build_date">41874.2752887384</constant>
-=======
-    <constant name="GM_build_date">41869.0476662037</constant>
->>>>>>> c56adf5cb2feca2beba64897996b8b98bc64326d
+    <constant name="GM_build_date">41913.8288751505</constant>
     <constant name="GM_version">'1'</constant>
   </constants>
   <help>

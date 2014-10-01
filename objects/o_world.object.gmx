@@ -31,6 +31,7 @@ objects = ds_list_create();
 commands = ds_map_create();
 global.serverlist = ds_list_create();
 global.console = ds_list_create();
+global.color_map = ds_map_create();
 global.typing = false;
 
 // networking
@@ -45,10 +46,15 @@ commands[? "server"] = ",maxClients";
 commands[? "connect"] = ",ip:port";
 commands[? "disconnect"] = "";
 
+// color map
+global.color_map[? "error"] = c_maroon;
+global.color_map[? "name"] = c_green;
+global.color_map[? "system"] = c_gray;
+
 // welcome message
-cout("Welcome to RGB.");
-cout("Type /help for a list of commands.");
-cout("Press F1 to toggle console display modes");
+cout("Welcome to RGB.", C_SYSTEM);
+cout("Type /help for a list of commands.", C_SYSTEM);
+cout("Press F1 to toggle console display modes", C_SYSTEM);
 
 // run in release
 gml_release_mode(!debug_mode);
@@ -151,11 +157,17 @@ switch (display)
     case 0:
         var lines = floor(view_hview[0] / 16) - 6;
         for (var i = 0; i &lt; ds_list_size(global.console); i++)
-        {                
-            var text = global.console[| i];
-            var yy = 64 + (i mod lines * 16);
-            drawText(14, yy, i, c_black);
-            drawTextExt(32, yy, text, c_white, 0.75, f_hud, fa_left);
+        {
+            var con = global.console[| i];
+            var text = ds_map_find_first(con);
+            for (var j = 0; j &lt; ds_map_size(con); j++)
+            {
+                color = ds_map_find_value(con, text);
+                var yy = 64 + (i mod lines * 16);
+                drawText(14, yy, i, c_black);
+                drawTextExt(32, yy, text, color, 0.75, f_hud, fa_left);
+                text = ds_map_find_next(con, text);
+            }
         }
         drawText(16, 50, string(ds_list_size(global.console)) + "/" + string(lines), c_orange);
         break;
@@ -182,7 +194,7 @@ if (global.typing)
 {
     input = ternary(global.typing, keyboard_string + "|", keyboard_string);
     drawTextExt(16, view_hview[0] - 32, input, c_white, 0.75, f_hud, fa_left);
-    drawTextExt(16, view_hview[0] - 16, parse(keyboard_string), c_orange, 0.5, f_hud, fa_left);
+    drawTextExt(16, view_hview[0] - 16, parse(keyboard_string) + " : " + sha1_string_utf8(keyboard_string), c_orange, 0.5, f_hud, fa_left);
 }
 
 d3d_set_lighting(true);
@@ -333,20 +345,20 @@ if (global.typing)
     switch (cmd)
     {
         case "help":
-            cout("Commands:");
+            cout("Commands:", C_SYSTEM);
             var key = ds_map_find_first(commands);
             for (var i = 0; i &lt; ds_map_size(commands); i++)
             {
                 value = ds_map_find_value(commands, key);
-                cout("-" + key + string_replace(string(value), ",", " "));
+                cout("-" + key + string_replace(string(value), ",", " "), C_SYSTEM);
                 key = ds_map_find_next(commands, key);
             }
             break;
         case "firstperson":
             with (o_camera)
-            {            
+            {
                 firstperson = !firstperson;
-                cout(ternary(firstperson, "First person mode", "Chasecam mode"));
+                cout(ternary(firstperson, "First person mode", "Chasecam mode"), C_SYSTEM);
                 tilt = ternary(firstperson, 0, 30);
                 zoffset = ternary(firstperson, 25, 14);
                 distance = ternary(firstperson, 1, 60);
@@ -356,7 +368,7 @@ if (global.typing)
             var server = instance_create(0, 0, o_server);
             if (instance_exists(server))
                 server.max_clients = round(real(args[1]));
-            cout("Server created with " + string(server.max_clients) + " max clients");
+            cout("Server created with " + string(server.max_clients) + " max clients", C_SYSTEM);
             break;
         case "connect":
             var client = instance_create(0, 0, o_client);
@@ -370,11 +382,11 @@ if (global.typing)
                 with(o_server) { instance_destroy(); }
             break;
         case "special":
-            cout("Special Thanks to,");
-            cout("YellowAfterlife for 3D Camera example");
-            cout("Ben Dansie for Sintel model");
-            cout("SebastL for Chest model");
-            cout("Explosive James for Tree model");
+            cout("Special Thanks to,", C_SYSTEM);
+            cout("YellowAfterlife for 3D Camera example", C_SYSTEM);
+            cout("Ben Dansie for Sintel model", C_SYSTEM);
+            cout("SebastL for Chest model", C_SYSTEM);
+            cout("Explosive James for Tree model", C_SYSTEM);
             break;
         case "invalid":
         case "misuse":
@@ -385,7 +397,7 @@ if (global.typing)
             break;
         case "say":
             if (!isEmpty(keyboard_string))
-                cout(o_player.name + ": " + vars(keyboard_string));
+                cout(o_player.name + ": " + vars(keyboard_string), C_NAME);
             break;
     }
 

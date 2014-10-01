@@ -55,7 +55,7 @@ network_connect(client, ip, port);
             <kind>1</kind>
             <string>/// Cleanup
 network_destroy(client);
-cout("Disconnected");
+cout("Disconnected", C_SYSTEM);
 </string>
           </argument>
         </arguments>

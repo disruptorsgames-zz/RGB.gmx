@@ -13,15 +13,15 @@ value = ds_map_find_value(commands, cmd);
 
 if (string(value) == "0")
 {
-    cout("Invalid command: " + string(cmd));
+    cout("Invalid command: " + string(cmd), C_ERROR);
     return "invalid";
 }
 
 params = split(value, ",");
 if (len != array_length_1d(params))
 {
-    cout("Usage:");
-    cout("-" + cmd + string_replace(value, ",", " "));
+    cout("Usage:", C_SYSTEM);
+    cout("-" + cmd + string_replace(value, ",", " "), C_SYSTEM);
     return "misuse";
 }
 

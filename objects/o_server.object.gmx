@@ -31,7 +31,7 @@ server = network_create_server(network_socket_tcp, 6510, max_clients);
 broadcast_buffer = buffer_create(32, buffer_fixed, 1);
 if (server &lt; 0)
 {
-    cout("Server already running, type /disconnect to close");
+    cout("Server already running, type /disconnect to close", C_ERROR);
     instance_destroy();
 }
 alarm[0] = 60;
@@ -60,7 +60,7 @@ alarm[0] = 60;
             <string>/// Cleanup
 network_destroy(server);
 buffer_delete(broadcast_buffer);
-cout("Server disconnected");
+cout("Server disconnected", C_SYSTEM);
 </string>
           </argument>
         </arguments>

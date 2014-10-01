@@ -44,10 +44,11 @@ max_mana = 100;
 mana = 0;
 shell = c_black;
 invul = false;
+freelook = false;
 next = 0;
 target_area = 50;
 target = noone;
-targets = ds_map_create();
+targets = ds_list_create();
 
 // spells
 spells = ds_map_create();
@@ -159,19 +160,19 @@ else
 if (tick(spells[? "regen"]))
 {
     //emit(10, make_color_rgb(random(155) + 100, 0, 0));
-    cout(name + " reguvinated 5 health!");
+    cout(name + " reguvinated 5 health!", C_SYSTEM);
     health += ternary(health &gt;= max_health, 0, heal(self, 5));
 }
 else if (tick(spells[? "mana"]))
 {
     //emit(10, make_color_rgb(0, 0, random(155) + 100));
-    cout(name + " reguvinated 5 mana!");
+    cout(name + " reguvinated 5 mana!", C_SYSTEM);
     mana += ternary(mana &gt;= max_mana, 0, heal(self, 5));
 }
 else if (tick(spells[? "poison"]))
 {
     //gib(32, make_color_rgb(random(55) + 200, 0, 0));
-    cout(name + " was poisoned for 5 damage!");
+    cout(name + " was poisoned for 5 damage!", C_SYSTEM);
     health -= damage(self, 5);
 }
 </string>
@@ -304,8 +305,8 @@ z += zspeed;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Camera Mode
-if (!keyboard_check(vk_alt))
+            <string>///Camera Mode
+if (!freelook)
 {
     tfacing = cam_d;
     // rotate towards target facing direction
