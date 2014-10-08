@@ -316,7 +316,10 @@ mlook = toggle(mlook);
             <kind>1</kind>
             <string>/// Camera Mode
 if (keyboard_check(vk_alt))
+{
+    cout(ternary(o_player.freelook, "Freelook disabled", "Freelook enabled"), C_SYSTEM);
     o_player.freelook = !o_player.freelook;
+}
 </string>
           </argument>
         </arguments>

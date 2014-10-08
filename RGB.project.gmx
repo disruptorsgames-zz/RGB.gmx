@@ -355,9 +355,9 @@
   <constants number="6">
     <constant name="C_NAME">c_lime</constant>
     <constant name="C_ERROR">c_red</constant>
-    <constant name="C_SYSTEM">c_ltgray</constant>
+    <constant name="C_SYSTEM">c_white</constant>
     <constant name="GAME_TICK">60</constant>
-    <constant name="GM_build_date">41881.0358577662</constant>
+    <constant name="GM_build_date">41914.8226827083</constant>
     <constant name="GM_version">'1'</constant>
   </constants>
   <help>

@@ -1,2 +1,2 @@
 /// tick(value)
-return (argument0 mod GAME_TICK == 1);
+return (real(argument0) mod GAME_TICK == 1);

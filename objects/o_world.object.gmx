@@ -158,7 +158,8 @@ switch (display)
         var lines = floor(view_hview[0] / 16) - 6;
         for (var i = 0; i &lt; ds_list_size(global.console); i++)
         {
-            var con = global.console[| i];
+            var con = ds_map_create();
+            ds_map_read(con, global.console[| i]);
             var text = ds_map_find_first(con);
             for (var j = 0; j &lt; ds_map_size(con); j++)
             {
@@ -168,6 +169,7 @@ switch (display)
                 drawTextExt(32, yy, text, color, 0.75, f_hud, fa_left);
                 text = ds_map_find_next(con, text);
             }
+            ds_map_destroy(con);
         }
         drawText(16, 50, string(ds_list_size(global.console)) + "/" + string(lines), c_orange);
         break;

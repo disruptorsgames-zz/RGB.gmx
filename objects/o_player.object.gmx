@@ -145,7 +145,7 @@ if (z &gt; 0)
             <string>/// Effects
 
 // invulnerability
-if (spells[? "invul"] &gt; 0)
+if (real(spells[? "invul"]) &gt; 0)
 {
     invul = true;
     shell = c_red;
@@ -414,17 +414,20 @@ if (keyboard_check_pressed(vk_tab))
           <argument>
             <kind>1</kind>
             <string>///Hotbar
-if (keyboard_check(ord('1')))
+if (keyboard_check_pressed(ord('1')) &amp;&amp; !global.typing)
 {
     var sprite = sprite_get_name(hotbar1[| 1]);
     switch(sprite)
     {
+        // regen
         case "s_hotbar_health":
             if (mana &gt;= 50)
             {
                 mana -= heal(self, 50);
                 spells[? "regen"] = setTick(5);
             }
+            else
+                cout("Not enough mana!", C_SYSTEM);
             break;
     }
 }
