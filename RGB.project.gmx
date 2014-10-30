@@ -3,59 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="52" name="datafiles">
-    <datafile>
-      <name>Chest.d3d</name>
-      <exists>-1</exists>
-      <size>2779102</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Chest.d3d</filename>
-    </datafile>
-    <datafile>
-      <name>Leaves.d3d</name>
-      <exists>-1</exists>
-      <size>150101</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Leaves.d3d</filename>
-    </datafile>
-    <datafile>
-      <name>Tree.d3d</name>
-      <exists>-1</exists>
-      <size>76092</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Tree.d3d</filename>
-    </datafile>
-    <datafiles number="52" name="Sintel">
+  <datafiles number="53" name="datafiles">
+    <datafiles number="53" name="Sintel">
       <datafile>
         <name>Sintel.d3d</name>
         <exists>-1</exists>
@@ -210,6 +159,57 @@
         <filename>Sintel_Shirt.d3d</filename>
       </datafile>
     </datafiles>
+    <datafile>
+      <name>Chest.d3d</name>
+      <exists>-1</exists>
+      <size>2779102</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>Chest.d3d</filename>
+    </datafile>
+    <datafile>
+      <name>Leaves.d3d</name>
+      <exists>-1</exists>
+      <size>150101</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>Leaves.d3d</filename>
+    </datafile>
+    <datafile>
+      <name>Tree.d3d</name>
+      <exists>-1</exists>
+      <size>76092</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>Tree.d3d</filename>
+    </datafile>
   </datafiles>
   <NewExtensions/>
   <sounds name="sound"/>
@@ -350,7 +350,7 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\r_main</room>
-    <room>rooms\r_level01</room>
+    <room>rooms\r_wolf</room>
   </rooms>
   <constants number="6">
     <constant name="C_NAME">c_lime</constant>

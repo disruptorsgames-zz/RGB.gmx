@@ -31,7 +31,6 @@ objects = ds_list_create();
 commands = ds_map_create();
 global.serverlist = ds_list_create();
 global.console = ds_list_create();
-global.color_map = ds_map_create();
 global.typing = false;
 
 // networking
@@ -45,11 +44,6 @@ commands[? "special"] = "";
 commands[? "server"] = ",maxClients";
 commands[? "connect"] = ",ip:port";
 commands[? "disconnect"] = "";
-
-// color map
-global.color_map[? "error"] = c_maroon;
-global.color_map[? "name"] = c_green;
-global.color_map[? "system"] = c_gray;
 
 // welcome message
 cout("Welcome to RGB.", C_SYSTEM);
