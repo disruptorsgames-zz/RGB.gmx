@@ -1,5 +1,5 @@
 ///split(string, separator)
-var i = 0, text = argument0, count = 0, list, pos;
+var i = 0, text = argument0, count, list, pos;
 
 count = string_count(argument1, text);
 list = array(count);

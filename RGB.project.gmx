@@ -352,10 +352,11 @@
     <room>rooms\r_main</room>
     <room>rooms\r_wolf</room>
   </rooms>
-  <constants number="6">
+  <constants number="7">
     <constant name="C_NAME">c_lime</constant>
     <constant name="C_ERROR">c_red</constant>
     <constant name="C_SYSTEM">c_white</constant>
+    <constant name="C_KEYWORD">c_blue</constant>
     <constant name="GAME_TICK">60</constant>
     <constant name="GM_build_date">41914.8226827083</constant>
     <constant name="GM_version">'1'</constant>

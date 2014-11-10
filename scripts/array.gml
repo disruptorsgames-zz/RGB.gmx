@@ -1,7 +1,9 @@
 ///array(size)
-var a;
-for (var i = argument0; i > -1; i--) 
-{ 
-    a[i] = 0; 
+var a = 0;
+
+for(var i = argument0 - 1; i > 0; i--)
+{
+    a[i] = 0;
 }
+
 return a;

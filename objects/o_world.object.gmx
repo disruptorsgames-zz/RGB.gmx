@@ -39,7 +39,6 @@ broadcast = network_create_server(network_socket_udp, 6511, 100);
 // commands
 commands[? "help"] =  "";
 commands[? "clear"] = "";
-commands[? "firstperson"] = "";
 commands[? "special"] = "";
 commands[? "server"] = ",maxClients";
 commands[? "connect"] = ",ip:port";
@@ -159,13 +158,13 @@ switch (display)
             {
                 color = ds_map_find_value(con, text);
                 var yy = 64 + (i mod lines * 16);
-                drawText(14, yy, i, c_black);
+                drawText(14, yy, i, c_yellow);
                 drawTextExt(32, yy, text, color, 0.75, f_hud, fa_left);
                 text = ds_map_find_next(con, text);
             }
             ds_map_destroy(con);
         }
-        drawText(16, 50, string(ds_list_size(global.console)) + "/" + string(lines), c_orange);
+        drawText(16, 50, string(lines - ds_list_size(global.console)), c_orange);
         break;
     // objects
     case 1:
@@ -190,7 +189,7 @@ if (global.typing)
 {
     input = ternary(global.typing, keyboard_string + "|", keyboard_string);
     drawTextExt(16, view_hview[0] - 32, input, c_white, 0.75, f_hud, fa_left);
-    drawTextExt(16, view_hview[0] - 16, parse(keyboard_string) + " : " + sha1_string_utf8(keyboard_string), c_orange, 0.5, f_hud, fa_left);
+    drawTextExt(16, view_hview[0] - 16, parse(keyboard_string), c_orange, 0.5, f_hud, fa_left);
 }
 
 d3d_set_lighting(true);
@@ -270,7 +269,7 @@ display = ternary(display &gt; 1, 0, display + 1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Regenerate World!
+            <string>/// Regenerate World
 if (!global.typing)
 {
 }
@@ -342,7 +341,7 @@ if (global.typing)
     switch (cmd)
     {
         case "help":
-            cout("Commands:", C_SYSTEM);
+            cout("Commands:", C_KEYWORD);
             var key = ds_map_find_first(commands);
             for (var i = 0; i &lt; ds_map_size(commands); i++)
             {
