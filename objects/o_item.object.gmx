@@ -32,7 +32,7 @@ fade = false;
 color = choose(c_red, c_green, c_blue);;
 alpha = 0;
 attack_dir = round(random(360));
-z = 0;
+z = ternary(width &gt;= 4, width / 4, 0);
 
 model = d3d_model_create();
 d3d_model_load(model, "Chest.d3d");
@@ -101,7 +101,6 @@ d3d_transform_add_rotation_z(rot_z);
 d3d_transform_add_scaling(width, width, width);
 d3d_transform_add_translation(x, y, z);
 // drawing
-//d3d_set_lighting(false);
 celShading();
 draw_set_alpha(alpha);
 if (instance_exists(o_player) &amp;&amp; o_player.target == id)
@@ -110,7 +109,6 @@ d3d_model_draw(model, 0, 0, 0, background_get_texture(b_chest));
 draw_set_color(c_white);
 draw_set_alpha(1.0);
 shader_reset();
-//d3d_set_lighting(true);
 
 d3d_transform_stack_pop();
 </string>

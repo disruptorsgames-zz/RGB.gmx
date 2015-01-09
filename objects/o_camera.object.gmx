@@ -35,6 +35,8 @@ yoffset = 0;
 fov = 60;
 z = 0;
 lod = 16000; // may need tweaking for optimization
+window_width = 1024;
+window_height = 768;
 fullscreen = true;
 firstperson = false;
 mlook = true;
@@ -47,15 +49,14 @@ rotspeed_y = 0.95;
 window_mouse_set(view_wview[0] / 2, view_hview[0] / 2);
 
 // set fullscreen
-window_set_fullscreen(fullscreen);
-view_wview[0] = display_get_width();
-view_hview[0] = display_get_height();
-display_reset(0, false);
+setFullscreen(fullscreen, window_width, window_height);
 
 // targeting
 target = -1;
 if (instance_exists(o_player))
     target = o_player;
+else if (instance_exists(o_earth))
+    target = o_earth;
 </string>
           </argument>
         </arguments>
@@ -122,6 +123,8 @@ if (instance_exists(target))
     x = target.x + xoffset;
     y = target.y + yoffset;
     z = target.z + zoffset;
+    if (target.object_index == o_earth)
+        distance = o_earth.size * 4 + 60;
 }
 </string>
           </argument>
@@ -178,15 +181,16 @@ window_set_cursor(ternary(mlook, cr_none, cr_default));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Toggle Fullscreen
-if (keyboard_check(vk_alt) &amp;&amp; keyboard_check(vk_enter))
+            <string>/// Alt Keys
+if (keyboard_check(vk_alt))
 {
-    cout(ternary(fullscreen, "Fullscreen off", "Fullscreen on"), C_SYSTEM);
-    fullscreen = toggle(fullscreen);
-    window_set_fullscreen(fullscreen);
-    view_wview[0] = display_get_width();
-    view_hview[0] = display_get_height();
-    display_reset(0, false);
+    // fullscreen
+    if (keyboard_check_pressed(vk_enter))
+    {
+        cout(ternary(fullscreen, "Fullscreen off", "Fullscreen on"), C_SYSTEM);
+        fullscreen = toggle(fullscreen);
+        setFullscreen(fullscreen, window_width, window_height);
+    }
 }
 </string>
           </argument>
@@ -260,7 +264,7 @@ if (distance &gt; 30 &amp;&amp; !firstperson)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// D3D
+            <string>/// HUD
 d3d_set_lighting(false);
 
 var resolution = string(view_wview[0]) + "x" + string(view_hview[0]);
@@ -346,11 +350,8 @@ mlook = toggle(mlook);
           <argument>
             <kind>1</kind>
             <string>/// Camera Mode
-if (keyboard_check(vk_alt))
-{
-    cout(ternary(o_player.freelook, "Freelook disabled", "Freelook enabled"), C_SYSTEM);
-    o_player.freelook = !o_player.freelook;
-}
+cout(ternary(target.freelook, "Freelook disabled", "Freelook enabled"), C_SYSTEM);
+target.freelook = !target.freelook;
 </string>
           </argument>
         </arguments>

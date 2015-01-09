@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-1</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>o_entity</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -26,6 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
+instance_create(x, y, o_camera);
+
 z = 0;
 size = 11; // 8 (windowed)
 facing = 0;
@@ -465,15 +467,11 @@ d3d_set_lighting(false);
 // health
 draw_healthbar(offset, offset, offset + 256, offset + 16, (health / 100) * 100, c_white, c_maroon, c_red, 0, false, true);
 drawText(offset, offset, health, c_white);
-/* overheal
-if (health &gt; 100)
-{
-    ox = offset + 257;
-    draw_triangle_colour(ox - (health - 100), offset, ox, offset, ox, offset + 17, c_maroon, c_maroon, c_maroon, false); 
-}*/
+
 // mana
 draw_healthbar(offset, offset + 20, offset + 256, offset + 36, (mana / max_mana) * 100, c_white, c_navy, c_blue, 0, false, true);
 drawText(offset, offset + 20, mana, c_white);
+
 // spell bar
 spell = ds_map_find_first(spells);
 for (var i = 0; i &lt; ds_map_size(spells); i++)
@@ -483,12 +481,15 @@ for (var i = 0; i &lt; ds_map_size(spells); i++)
     drawText(rx - (i * 32) + 12, 8, value, c_white);
     spell = ds_map_find_next(spells, spell);
 }
+
 // retina
 r = sqr(size * 2) / (o_camera.distance / 32);
 draw_circle_color(cx, cy, r, c_black, c_black, 1);
+
 // cooldown
 drawTextIf(cx - r + 32, cy, charge, c_white, charge &gt; 0);
 drawTextIf(cx + r - 32, cy, cooldown, c_white, cooldown &gt; 0);
+
 // incoming attack &amp; targets
 for (var i = 0; i &lt; ds_list_size(targets); i++)
 {
@@ -501,9 +502,10 @@ for (var i = 0; i &lt; ds_list_size(targets); i++)
         ay = lengthdir_y(r, t.attack_dir);
         draw_circle_color(cx + ax, cy + ay, r / 8, t.color, t.color, false);
         drawTextExt(cx + ax - 5, cy + ay - 10, string_upper(string_char_at(tn, 3)), ternary(target == t, c_black, c_white), 1.0, f_hud_l, fa_left);
-        drawTextExt(cx - r * 2, cy + i * 16, tn + ":" + string(t), ternary(target == t, c_black, c_red), 0.5, f_hud_l, fa_right);
+        drawTextExt(cx - r * 1.5, cy + i * 16, tn + ":" + string(t), ternary(target == t, c_black, c_red), 0.5, f_hud_l, fa_right);
     }
 }
+
 // hotbar 1 - draw hotbar last
 for(var i = 0; i &lt; ds_list_size(hotbar1); i++)
 {
@@ -514,7 +516,7 @@ for(var i = 0; i &lt; ds_list_size(hotbar1); i++)
     draw_sprite(value, -1, xx, yy);
     drawText(xx, yy, i, c_white);
 }
-    
+
 d3d_set_lighting(true);
 </string>
           </argument>

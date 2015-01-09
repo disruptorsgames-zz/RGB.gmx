@@ -236,15 +236,29 @@
       </sprites>
     </sprites>
     <sprites name="World">
+      <sprite>sprites\s_earth</sprite>
+      <sprite>sprites\s_hwall</sprite>
       <sprite>sprites\s_item</sprite>
-      <sprite>sprites\s_tree</sprite>
       <sprite>sprites\s_moon</sprite>
       <sprite>sprites\s_sun</sprite>
+      <sprite>sprites\s_tree</sprite>
+      <sprite>sprites\s_vwall</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\b_celshading</background>
     <background>background\b_default</background>
+    <backgrounds name="Map">
+      <background>background\b_bark</background>
+      <background>background\b_chest</background>
+      <background>background\b_leaves</background>
+      <background>background\b_wall</background>
+    </backgrounds>
+    <backgrounds name="Planets">
+      <background>background\b_earth</background>
+      <background>background\b_moon</background>
+      <background>background\b_sun</background>
+    </backgrounds>
     <backgrounds name="Player">
       <background>background\b_boots</background>
       <background>background\b_eye</background>
@@ -256,14 +270,7 @@
       <background>background\b_skin</background>
     </backgrounds>
     <backgrounds name="World">
-      <background>background\b_moon</background>
-      <background>background\b_sun</background>
       <background>background\b_ground</background>
-      <background>background\b_wall</background>
-      <background>background\b_bark</background>
-      <background>background\b_leaves</background>
-      <background>background\b_item</background>
-      <background>background\b_chest</background>
     </backgrounds>
   </backgrounds>
   <paths name="paths"/>
@@ -286,6 +293,9 @@
       <script>scripts\split.gml</script>
       <script>scripts\toChar.gml</script>
       <script>scripts\vars.gml</script>
+    </scripts>
+    <scripts name="display">
+      <script>scripts\setFullscreen.gml</script>
     </scripts>
     <scripts name="draw">
       <script>scripts\drawBlock.gml</script>
@@ -324,9 +334,20 @@
       <object>objects\o_gib</object>
       <object>objects\o_float</object>
     </objects>
+    <objects name="Map">
+      <object>objects\o_item</object>
+      <object>objects\o_tree</object>
+      <object>objects\o_wall_h</object>
+      <object>objects\o_wall_v</object>
+    </objects>
     <objects name="Networking">
       <object>objects\o_server</object>
       <object>objects\o_client</object>
+    </objects>
+    <objects name="Planets">
+      <object>objects\o_earth</object>
+      <object>objects\o_moon</object>
+      <object>objects\o_sun</object>
     </objects>
     <objects name="Player">
       <object>objects\o_camera</object>
@@ -340,15 +361,13 @@
       <object>objects\o_hotbar</object>
     </objects>
     <objects name="World">
-      <object>objects\o_item</object>
-      <object>objects\o_moon</object>
-      <object>objects\o_sun</object>
+      <object>objects\o_entity</object>
       <object>objects\o_thing</object>
-      <object>objects\o_tree</object>
       <object>objects\o_world</object>
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\r_universe</room>
     <room>rooms\r_main</room>
     <room>rooms\r_wolf</room>
   </rooms>

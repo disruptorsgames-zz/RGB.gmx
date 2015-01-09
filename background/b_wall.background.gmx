@@ -13,7 +13,7 @@
     <TextureGroup0>0</TextureGroup0>
   </TextureGroups>
   <For3D>-1</For3D>
-  <width>16</width>
-  <height>16</height>
+  <width>128</width>
+  <height>128</height>
   <data>images\b_wall.png</data>
 </background>

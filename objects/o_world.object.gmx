@@ -141,7 +141,7 @@ if(eventid == broadcast)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Display Text
+            <string>/// On Screen Display
 d3d_set_lighting(false);
 
 switch (display)
@@ -193,36 +193,6 @@ if (global.typing)
 }
 
 d3d_set_lighting(true);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// D3D Floor
-d3d_transform_stack_push();
-
-celShading();
-d3d_draw_floor(0, room_height, 0, room_width, 0, 0, background_get_texture(b_ground), room_width / 16, room_height / 16);
-shader_reset();
-
-d3d_transform_stack_pop();
 </string>
           </argument>
         </arguments>
@@ -393,7 +363,7 @@ if (global.typing)
             break;
         case "say":
             if (!isEmpty(keyboard_string))
-                cout(o_player.name + ": " + vars(keyboard_string), C_NAME);
+                cout(o_camera.target.name + ": " + vars(keyboard_string), C_NAME);
             break;
     }
 

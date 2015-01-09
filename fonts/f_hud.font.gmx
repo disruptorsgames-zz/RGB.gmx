@@ -3,9 +3,12 @@
   <name>Tahoma</name>
   <size>10</size>
   <bold>-1</bold>
+  <renderhq>0</renderhq>
   <italic>0</italic>
   <charset>1</charset>
   <aa>3</aa>
+  <includeTTF>0</includeTTF>
+  <TTFName></TTFName>
   <texgroups>
     <texgroup0>0</texgroup0>
   </texgroups>
@@ -20,9 +23,9 @@
     <glyph character="61" x="117" y="71" w="8" h="10" shift="11" offset="1"/>
     <glyph character="77" x="14" y="20" w="10" h="13" shift="11" offset="0"/>
     <glyph character="56" x="2" y="71" w="7" h="13" shift="8" offset="0"/>
-    <glyph character="35" x="74" y="38" w="8" h="13" shift="9" offset="0"/>
     <glyph character="115" x="18" y="88" w="6" h="13" shift="7" offset="0"/>
     <glyph character="122" x="34" y="88" w="6" h="13" shift="7" offset="0"/>
+    <glyph character="35" x="74" y="38" w="8" h="13" shift="9" offset="0"/>
     <glyph character="105" x="85" y="106" w="2" h="13" shift="3" offset="0"/>
     <glyph character="47" x="56" y="20" w="8" h="15" shift="8" offset="-1"/>
     <glyph character="80" x="11" y="56" w="7" h="13" shift="8" offset="0"/>
@@ -31,12 +34,12 @@
     <glyph character="48" x="113" y="38" w="7" h="14" shift="8" offset="0"/>
     <glyph character="32" x="118" y="88" w="4" h="16" shift="4" offset="0"/>
     <glyph character="91" x="42" y="106" w="4" h="15" shift="6" offset="1"/>
-    <glyph character="57" x="83" y="71" w="7" h="13" shift="8" offset="0"/>
     <glyph character="79" x="64" y="38" w="8" h="13" shift="9" offset="0"/>
-    <glyph character="97" x="65" y="71" w="7" h="13" shift="8" offset="0"/>
-    <glyph character="98" x="56" y="71" w="7" h="13" shift="8" offset="0"/>
-    <glyph character="107" x="26" y="88" w="6" h="13" shift="7" offset="0"/>
     <glyph character="114" x="97" y="88" w="5" h="13" shift="6" offset="0"/>
+    <glyph character="98" x="56" y="71" w="7" h="13" shift="8" offset="0"/>
+    <glyph character="97" x="65" y="71" w="7" h="13" shift="8" offset="0"/>
+    <glyph character="107" x="26" y="88" w="6" h="13" shift="7" offset="0"/>
+    <glyph character="57" x="83" y="71" w="7" h="13" shift="8" offset="0"/>
     <glyph character="46" x="89" y="106" w="2" h="13" shift="4" offset="1"/>
     <glyph character="38" x="77" y="20" w="9" h="13" shift="11" offset="1"/>
     <glyph character="100" x="2" y="56" w="7" h="13" shift="8" offset="0"/>
