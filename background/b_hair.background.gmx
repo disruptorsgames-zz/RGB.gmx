@@ -13,7 +13,7 @@
     <TextureGroup0>0</TextureGroup0>
   </TextureGroups>
   <For3D>-1</For3D>
-  <width>512</width>
-  <height>512</height>
+  <width>1024</width>
+  <height>1024</height>
   <data>images\b_hair.png</data>
 </background>

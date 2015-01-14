@@ -29,6 +29,7 @@
 pan = 0;
 tilt = 30;
 distance = 60;
+max_distance = 270;
 zoffset = 14;// 8
 xoffset = 0;
 yoffset = 0;
@@ -123,8 +124,6 @@ if (instance_exists(target))
     x = target.x + xoffset;
     y = target.y + yoffset;
     z = target.z + zoffset;
-    if (target.object_index == o_earth)
-        distance = o_earth.size * 4 + 60;
 }
 </string>
           </argument>

@@ -37,6 +37,9 @@ walkspeed = 1.75;
 runspeed = 2.5;
 key_x = 0;
 key_y = 0;
+dir = 0;
+orbit_speed = 0;
+orbit_radius = o_earth.size + size;
 charge = 0;
 cooldown = 0;
 name = "Sintel";
@@ -67,20 +70,6 @@ model = d3d_model_create();
 d3d_model_load(model, ".\Sintel\Sintel.d3d");
 hair = d3d_model_create();
 d3d_model_load(hair, ".\Sintel\Sintel_Hair.d3d");
-hair1 = d3d_model_create();
-d3d_model_load(hair1, ".\Sintel\Sintel_Hair1.d3d");
-eyes = d3d_model_create();
-d3d_model_load(eyes, ".\Sintel\Sintel_Eyes.d3d");
-mouth = d3d_model_create();
-d3d_model_load(mouth, ".\Sintel\Sintel_Mouth.d3d");
-pants = d3d_model_create();
-d3d_model_load(pants, ".\Sintel\Sintel_Pants.d3d");
-shirt = d3d_model_create();
-d3d_model_load(shirt, ".\Sintel\Sintel_Shirt.d3d");
-boots = d3d_model_create();
-d3d_model_load(boots, ".\Sintel\Sintel_Boots.d3d");
-gloves = d3d_model_create();
-d3d_model_load(gloves, ".\Sintel\Sintel_Gloves.d3d");
 </string>
           </argument>
         </arguments>
@@ -268,11 +257,8 @@ if (key_l &gt; 1)
 // actually move around, if needed
 if (key_l &gt; 0 &amp;&amp; !global.typing) 
 {
-    if (place_free(key_x, key_y))
-    {
-        x += (lengthdir_x(key_x, cam_d) + lengthdir_x(key_y, cam_d - 90)) * ternary(run, runspeed, walkspeed);
-        y += (lengthdir_y(key_x, cam_d) + lengthdir_y(key_y, cam_d - 90)) * ternary(run, runspeed, walkspeed);
-    }
+    x += (lengthdir_x(key_x, cam_d) + lengthdir_x(key_y, cam_d - 90)) * ternary(run, runspeed, walkspeed);
+    y += (lengthdir_y(key_x, cam_d) + lengthdir_y(key_y, cam_d - 90)) * ternary(run, runspeed, walkspeed);
     tfacing = point_direction(0, 0, key_x, key_y) + cam_d;
 }
 
@@ -552,15 +538,8 @@ d3d_transform_add_translation(x, y, z + 1);
 celShading();
 //drawBlock(c_white, size, background_get_texture(b_player), shell);
 draw_set_color(shell);
-d3d_model_draw(model, 0, 0, 0, background_get_texture(b_skin));
-d3d_model_draw(eyes, 0, 0, 0, background_get_texture(b_eye));
-d3d_model_draw(mouth, 0, 0, 0, background_get_texture(b_mouth));
+d3d_model_draw(model, 0, 0, 0, background_get_texture(b_sintel));
 d3d_model_draw(hair, 0, 0, 0, background_get_texture(b_hair));
-d3d_model_draw(hair1, 0, 0, 0, background_get_texture(b_hair));
-d3d_model_draw(pants, 0, 0, 0, background_get_texture(b_pants));
-d3d_model_draw(shirt, 0, 0, 0, background_get_texture(b_shirt));
-d3d_model_draw(boots, 0, 0, 0, background_get_texture(b_boots));
-d3d_model_draw(gloves, 0, 0, 0, background_get_texture(b_gloves));
 draw_set_color(c_white);
 shader_reset();
 

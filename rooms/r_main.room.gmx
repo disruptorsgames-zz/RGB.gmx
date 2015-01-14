@@ -11,6 +11,7 @@
   <colour>13145700</colour>
   <showcolour>-1</showcolour>
   <code>instance_create(0, 0, o_sun);
+instance_create(0, 0, o_earth);
 instance_create(0, 0, o_moon);
 
 instance_create(0, 0, o_world);

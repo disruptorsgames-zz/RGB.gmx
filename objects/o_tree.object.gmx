@@ -34,9 +34,9 @@ attack_dir = round(random(360));
 z = 0;
 
 trunk = d3d_model_create();
-d3d_model_load(trunk, "Tree.d3d");
+d3d_model_load(trunk, ".\World\Tree.d3d");
 leaves = d3d_model_create();
-d3d_model_load(leaves, "Leaves.d3d");
+d3d_model_load(leaves, ".\World\Leaves.d3d");
 </string>
           </argument>
         </arguments>

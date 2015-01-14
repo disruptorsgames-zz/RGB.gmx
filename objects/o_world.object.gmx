@@ -171,7 +171,7 @@ switch (display)
         for (var i = 0; i &lt; ds_list_size(objects); i++)
         {
             obj = objects[| i];
-            t = instance_nearest(o_player.x, o_player.y, obj);
+            t = instance_nearest(o_camera.target.x, o_camera.target.y, obj);
             drawTextExt(16, 64 + (i * 16), object_get_name(obj) + ":" + string(t), c_white, 0.75, f_hud, fa_left);
         }
         break;
@@ -351,7 +351,6 @@ if (global.typing)
             cout("Special Thanks to,", C_SYSTEM);
             cout("YellowAfterlife for 3D Camera example", C_SYSTEM);
             cout("Ben Dansie for Sintel model", C_SYSTEM);
-            cout("SebastL for Chest model", C_SYSTEM);
             cout("Explosive James for Tree model", C_SYSTEM);
             break;
         case "invalid":

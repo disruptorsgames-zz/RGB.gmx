@@ -26,16 +26,15 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
-width = round(random(4)) + 4;
+z = 0;
 rot_z = random(360);
 fade = false;
 color = choose(c_red, c_green, c_blue);;
 alpha = 0;
 attack_dir = round(random(360));
-z = ternary(width &gt;= 4, width / 4, 0);
-
-model = d3d_model_create();
-d3d_model_load(model, "Chest.d3d");
+size = random(7) + 1;
+shape = choose(0, 1, 2);
+width = 8;
 </string>
           </argument>
         </arguments>
@@ -98,15 +97,20 @@ d3d_transform_stack_push();
 
 // positioning
 d3d_transform_add_rotation_z(rot_z);
-d3d_transform_add_scaling(width, width, width);
 d3d_transform_add_translation(x, y, z);
 // drawing
 celShading();
-draw_set_alpha(alpha);
-if (instance_exists(o_player) &amp;&amp; o_player.target == id)
-    draw_set_color(color);
-d3d_model_draw(model, 0, 0, 0, background_get_texture(b_chest));
-draw_set_color(c_white);
+/*if (instance_exists(o_player) &amp;&amp; o_player.target == id)
+    draw_set_color(color);*/
+
+//
+d3d_primitive_begin(pr_trianglelist);
+    d3d_vertex_colour(-size, size, 0, color, alpha);
+    d3d_vertex_colour(-size, size, 8, c_blue, alpha);
+d3d_primitive_end();
+//
+
+//draw_set_color(c_white);
 draw_set_alpha(1.0);
 shader_reset();
 
